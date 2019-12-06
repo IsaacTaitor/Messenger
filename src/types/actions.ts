@@ -1,0 +1,1 @@
+export const ADD_MESSEGE = 'ADD_MESSEGE';
