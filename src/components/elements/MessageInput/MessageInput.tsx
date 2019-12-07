@@ -1,5 +1,6 @@
 import React from 'react';
 import { Item } from '../../../types/store';
+import './MessageInput.css';
 
 interface MessageInputProps {
 	addMessage(newItem: Item): void;
@@ -37,7 +38,8 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 			<form onSubmit={this.handleSubmit}>
 				<input
 					autoComplete="off"
-					id="new-Message"
+					className="input"
+					placeholder='Напишите сообщение...'
 					onChange={this.handleChange}
 					value={this.state.text}
 				/>
