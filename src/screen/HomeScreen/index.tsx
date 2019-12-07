@@ -1,36 +1,35 @@
 import React from 'react';
-import MessegeList from '../../components/elements/MessegeList';
-import MessegeInput from '../../components/elements/MessegeInput';
+import MessageList from '../../components/elements/MessageList/MessageList';
+import MessageInput from '../../components/elements/MessageInput/MessageInput';
+import { Item, ApplicationStore } from '../../types/store';
 
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
-import { addMessege } from '../../redux/messages/messagesActions';
-import { Item } from '../../redux/messages/messagesReducers';
+import { addMessage } from '../../redux/messages/messagesActions';
 
 interface HomeScreenProps {
 	messagesStore: Array<Item>;
-	addMessege(Item: Item): void;
+	addMessage(Item: Item): void;
 }
 
-const mapStateToProps = (state: any): any => ({
+const mapStateToProps = (state: ApplicationStore): any => ({
 	messagesStore: state.messagesStore,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): any => {
-	return {
-		addMessege: bindActionCreators(addMessege, dispatch)
-	};
-};
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): any => ({
+	addMessage: bindActionCreators(addMessage, dispatch)
+});
 
 class HomeScreen extends React.Component<HomeScreenProps> {
 
 	render(): any {
+		const {messagesStore, addMessage } = this.props;
 		return (
-			<div>
+			<>
 				<h3>Чат</h3>
-				<MessegeList messages={this.props.messagesStore} />
-				<MessegeInput addMessege={this.props.addMessege} />
-			</div>
+				<MessageList messages={messagesStore} />
+				<MessageInput addMessage={addMessage} />
+			</>
 		);
 	}
 }

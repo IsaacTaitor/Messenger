@@ -1,9 +1,9 @@
 import { Dispatch, Action } from 'redux';
-import { ADD_MESSEGE } from '../../types/actions';
-import { Item } from './messagesReducers';
+import { ADD_MESSAGE } from '../../types/actions';
+import { Item } from '../../types/store';
 
-export const addMessege = (newItem: Item) => {
+export const addMessage = (newItem: Item) => {
 	return (dispatch: Dispatch<Action>): void => {
-		dispatch({ type: ADD_MESSEGE, payload: { newItem } });
+		dispatch({ type: ADD_MESSAGE, payload: { newItem } });
 	};
 };

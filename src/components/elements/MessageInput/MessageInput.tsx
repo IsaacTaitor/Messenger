@@ -1,15 +1,15 @@
 import React from 'react';
-import { Item } from '../../redux/messages/messagesReducers';
+import { Item } from '../../../types/store';
 
-interface MessegeInputProps {
-	addMessege(newItem: Item): void;
+interface MessageInputProps {
+	addMessage(newItem: Item): void;
 }
 
-interface MessegeInputState {
+interface MessageInputState {
 	text: string;
 }
 
-export default class MessegeInput extends React.PureComponent<MessegeInputProps, MessegeInputState> {
+export default class MessageInput extends React.PureComponent<MessageInputProps, MessageInputState> {
 	state = { text: '' };
 
 	handleChange = (e): void => {
@@ -25,7 +25,7 @@ export default class MessegeInput extends React.PureComponent<MessegeInputProps,
 			text: this.state.text,
 			id: Date.now()
 		};
-		this.props.addMessege(newItem);
+		this.props.addMessage(newItem);
 
 		this.setState({
 			text: ''
@@ -33,12 +33,11 @@ export default class MessegeInput extends React.PureComponent<MessegeInputProps,
 	}
 
 	render(): any {
-		debugger;
 		return (
 			<form onSubmit={this.handleSubmit}>
 				<input
 					autoComplete="off"
-					id="new-messege"
+					id="new-Message"
 					onChange={this.handleChange}
 					value={this.state.text}
 				/>

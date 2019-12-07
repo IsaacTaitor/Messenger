@@ -1,0 +1,10 @@
+.divMessageList {
+	width: 200px;
+	height: 300px;
+	border: 1px solid black;
+	display: flex;
+	flex-direction: column-reverse;
+	background-color: powderblue;
+	overflow: auto;
+	flex-wrap: nowrap 
+}

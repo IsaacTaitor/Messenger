@@ -1,1 +1,1 @@
-export const ADD_MESSEGE = 'ADD_MESSEGE';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
