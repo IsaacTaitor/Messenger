@@ -1,9 +1,9 @@
 import React from 'react';
-import { Message } from '../../../types/store';
+import { MessageValue } from '../../../types/store';
 import './MessageInput.css';
 
 interface MessageInputProps {
-	addMessage(message: Message): void;
+	addMessage(message: MessageValue): void;
 }
 
 interface MessageInputState {
@@ -61,7 +61,7 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 	previewFile = (file) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
-		reader.onloadend = function () {
+		reader.onloadend = () => {
 			const img = document.createElement('img');
 			(img as any).src = reader.result;
 			document.getElementById('gallery').appendChild(img);
@@ -71,10 +71,10 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 	render(): any {
 		return (
 			<div id="drop-area" onSubmit={this.handleSubmit}>
-				<form className="my-form">
+				<form className="form">
 					<input type="file" id="fileElem" multiple accept="image/*" onChange={this.handleFiles} />
 					<label className="button" htmlFor="fileElem">
-						скрепка
+						<i className="fa fa-paperclip" style={{ fontSize: '24px' }}></i>
 					</label>
 					<input
 						autoComplete="off"

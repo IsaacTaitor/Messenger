@@ -1,32 +1,41 @@
 import React from 'react';
+import { MessageValue  } from '../../../types/store';
 import './Message.css';
 
 interface MessageProps {
-	message: any;
+	message: MessageValue;
 }
 
 interface MessageState {
-	result: any;
+	imgs: any;
 }
 
 export default class Message extends React.PureComponent<MessageProps, MessageState> {
 	state = {
-		result: ''
+		imgs: []
 	}
 	render(): any {
-		if (this.props.message.files.length) {
-			const reader = new FileReader();
-			reader.readAsDataURL(this.props.message.files[0]);
-			reader.onloadend = () => {
-				this.setState({ result: reader.result });
-			};
-		}
 		return (
 			<div className="bodyMessage">
 				<div className="textMessage">{this.props.message.text}
-					{this.props.message.files.length ? <img src={this.state.result} style={{maxHeight: '100px', maxWidth: '100px'}}/> : null}
+					{this.props.message.files.length ? this.state.imgs : null}
 				</div>
 			</div>
 		);
+	}
+
+	componentDidMount(): void {
+		const { files } = this.props.message;
+		if (files.length) {
+			files.forEach(
+				file => {
+					const reader = new FileReader();
+					reader.readAsDataURL(file);
+					reader.onloadend = (): void => {
+						this.setState(prevState => ({ imgs: prevState.imgs.concat(<img src={reader.result as any} style={{maxHeight: '150px', maxWidth: '150px'}}/>) }));
+					};
+				}
+			);
+		}
 	}
 }

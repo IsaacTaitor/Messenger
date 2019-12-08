@@ -3,10 +3,10 @@ export interface ApplicationStore {
 }
 
 export interface MessagesStore {
-	[id: number]: Message;
+	[id: number]: MessageValue;
 }
 
-export interface Message {
+export interface MessageValue {
 	text: string;
 	id: number;
 	files: Array<File>;

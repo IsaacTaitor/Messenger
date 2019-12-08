@@ -1,7 +1,7 @@
 import React from 'react';
 import MessageList from '../../components/elements/MessageList/MessageList';
 import MessageInput from '../../components/elements/MessageInput/MessageInput';
-import { MessagesStore, ApplicationStore, Message } from '../../types/store';
+import { MessagesStore, ApplicationStore, MessageValue } from '../../types/store';
 import './styles.css';
 
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import { addMessage } from '../../redux/messages/messagesActions';
 
 interface HomeScreenProps {
 	messagesStore: MessagesStore;
-	addMessage(Item: Message): void;
+	addMessage(Item: MessageValue): void;
 }
 
 const mapStateToProps = (state: ApplicationStore) => ({
