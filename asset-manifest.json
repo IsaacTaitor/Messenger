@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "//isaactaitor.github.io/Messenger/static/css/main.176e698f.chunk.css",
-    "main.js": "//isaactaitor.github.io/Messenger/static/js/main.0eb76d98.chunk.js",
-    "main.js.map": "//isaactaitor.github.io/Messenger/static/js/main.0eb76d98.chunk.js.map",
-    "runtime-main.js": "//isaactaitor.github.io/Messenger/static/js/runtime-main.964b89ba.js",
-    "runtime-main.js.map": "//isaactaitor.github.io/Messenger/static/js/runtime-main.964b89ba.js.map",
-    "static/js/2.53b0b30d.chunk.js": "//isaactaitor.github.io/Messenger/static/js/2.53b0b30d.chunk.js",
-    "static/js/2.53b0b30d.chunk.js.map": "//isaactaitor.github.io/Messenger/static/js/2.53b0b30d.chunk.js.map",
-    "index.html": "//isaactaitor.github.io/Messenger/index.html",
-    "precache-manifest.5c1576c1eedb44859bae4b0bde9e7f70.js": "//isaactaitor.github.io/Messenger/precache-manifest.5c1576c1eedb44859bae4b0bde9e7f70.js",
-    "service-worker.js": "//isaactaitor.github.io/Messenger/service-worker.js",
-    "static/css/main.176e698f.chunk.css.map": "//isaactaitor.github.io/Messenger/static/css/main.176e698f.chunk.css.map",
-    "static/js/2.53b0b30d.chunk.js.LICENSE": "//isaactaitor.github.io/Messenger/static/js/2.53b0b30d.chunk.js.LICENSE"
+    "main.css": "/https://isaactaitor.github.io/Messenger/static/css/main.176e698f.chunk.css",
+    "main.js": "/https://isaactaitor.github.io/Messenger/static/js/main.4d77b9e8.chunk.js",
+    "main.js.map": "/https://isaactaitor.github.io/Messenger/static/js/main.4d77b9e8.chunk.js.map",
+    "runtime-main.js": "/https://isaactaitor.github.io/Messenger/static/js/runtime-main.1f961651.js",
+    "runtime-main.js.map": "/https://isaactaitor.github.io/Messenger/static/js/runtime-main.1f961651.js.map",
+    "static/js/2.53b0b30d.chunk.js": "/https://isaactaitor.github.io/Messenger/static/js/2.53b0b30d.chunk.js",
+    "static/js/2.53b0b30d.chunk.js.map": "/https://isaactaitor.github.io/Messenger/static/js/2.53b0b30d.chunk.js.map",
+    "index.html": "/https://isaactaitor.github.io/Messenger/index.html",
+    "precache-manifest.6fefb8c2cbe7dbb2479f11b97f0bf972.js": "/https://isaactaitor.github.io/Messenger/precache-manifest.6fefb8c2cbe7dbb2479f11b97f0bf972.js",
+    "service-worker.js": "/https://isaactaitor.github.io/Messenger/service-worker.js",
+    "static/css/main.176e698f.chunk.css.map": "/https://isaactaitor.github.io/Messenger/static/css/main.176e698f.chunk.css.map",
+    "static/js/2.53b0b30d.chunk.js.LICENSE": "/https://isaactaitor.github.io/Messenger/static/js/2.53b0b30d.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.964b89ba.js",
+    "static/js/runtime-main.1f961651.js",
     "static/js/2.53b0b30d.chunk.js",
     "static/css/main.176e698f.chunk.css",
-    "static/js/main.0eb76d98.chunk.js"
+    "static/js/main.4d77b9e8.chunk.js"
   ]
 }
