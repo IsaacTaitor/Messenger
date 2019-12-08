@@ -3,73 +3,90 @@ import { Item } from '../../../types/store';
 import './MessageInput.css';
 
 interface MessageInputProps {
-	addMessage(newItem: Item): void;
+	addMessage(newItem: Item, files: Array<File>): void;
 }
 
 interface MessageInputState {
 	text: string;
+	files: Array<File>;
 }
 
 export default class MessageInput extends React.PureComponent<MessageInputProps, MessageInputState> {
-	state = { text: '' };
-	/*
+	state = { text: '', files: [] };
+
 	handleChange = (e): void => {
 		this.setState({ text: e.target.value });
 	}
 
 	handleSubmit = (e): void => {
 		e.preventDefault();
-		if (!this.state.text.length) {
+		if (!(this.state.text.length || this.state.files.length)) {
 			return;
 		}
 		const newItem: Item = {
 			text: this.state.text,
 			id: Date.now()
 		};
-		this.props.addMessage(newItem);
+		this.props.addMessage(newItem, this.state.files);
 
 		this.setState({
-			text: ''
+			text: '',
+			files: []
 		});
+		document.getElementById('gallery').innerHTML = '';
 	}
-*/
 
 	handlerFunction = (e): void => {
 		console.log(e);
 		e.preventDefault();
 	}
 
+	handleDrop = (e): void => {
+		const dt = e.dataTransfer;
+		let files = dt.files;
+		files = [...files];
+		files.forEach(this.uploadFile);
+		files.forEach(this.previewFile);
+	};
+
 	handleFiles = (files): void => {
 		files = (files.target.files);
-		([...files]).forEach(this.uploadFile);
+		files = [...files];
+		files.forEach(this.uploadFile);
+		files.forEach(this.previewFile);
 	}
 
 	uploadFile = (file): void => {
-		console.log(file);
+		this.setState((prevState) => ({files: prevState.files.concat(file) }));
+	}
+
+	previewFile = (file) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = function() {
+			const img = document.createElement('img');
+			(img as any).src = reader.result;
+			document.getElementById('gallery').appendChild(img);
+		};
 	}
 
 	render(): any {
-		/*return (
-			<div id="drop-area">
-				<form onSubmit={this.handleSubmit}>
+		return (
+			<div id="drop-area" onSubmit={this.handleSubmit}>
+				<form className="my-form">
+					<input type="file" id="fileElem" multiple accept="image/*" onChange={this.handleFiles} />
+					<label className="button" htmlFor="fileElem">
+						скрепка
+					</label>
 					<input
 						autoComplete="off"
 						className="input"
-						multiple
 						placeholder='Напишите сообщение...'
 						onChange={this.handleChange}
 						value={this.state.text}
 					/>
 				</form>
-			</div>
-		);*/
-		return (
-			<div id="drop-area">
-				<form className="my-form">
-					<p>Загрузите изображения с помощью диалога выбора файлов или перетащив нужные изображения в выделенную область</p>
-					<input type="file" id="fileElem" multiple accept="image/*" onChange={this.handleFiles} />
-					<label className="button" htmlFor="fileElem">Выбрать изображения</label>
-				</form>
+				<div id="gallery"></div>
 			</div>
 		);
 	}
@@ -88,11 +105,6 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 		function unhighlight(): void {
 			dropArea.classList.remove('highlight');
 		}
-		const handleDrop = (e): void => {
-			const dt = e.dataTransfer;
-			const files = dt.files;
-			([...files]).forEach(this.uploadFile);
-		};
 
 		['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
 			dropArea.addEventListener(eventName, this.preventDefaults, false);
@@ -103,6 +115,6 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 		['dragleave', 'drop'].forEach(eventName => {
 			dropArea.addEventListener(eventName, unhighlight, false);
 		});
-		dropArea.addEventListener('drop', handleDrop, false);
+		dropArea.addEventListener('drop', this.handleDrop, false);
 	}
 }

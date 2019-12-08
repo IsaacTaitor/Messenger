@@ -10,7 +10,7 @@ export function messagesReducer(state = initialState, action): any {
 	switch (type) {
 	case ADD_MESSAGE:
 		return [
-			payload.newItem,
+			payload,
 			...state
 		];
 	default:
