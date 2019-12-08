@@ -1,9 +1,9 @@
 import React from 'react';
-import { Item } from '../../../types/store';
+import { Message } from '../../../types/store';
 import './MessageInput.css';
 
 interface MessageInputProps {
-	addMessage(newItem: Item, files: Array<File>): void;
+	addMessage(message: Message): void;
 }
 
 interface MessageInputState {
@@ -23,11 +23,9 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 		if (!(this.state.text.length || this.state.files.length)) {
 			return;
 		}
-		const newItem: Item = {
-			text: this.state.text,
-			id: Date.now()
-		};
-		this.props.addMessage(newItem, this.state.files);
+
+		const message = { text: this.state.text, id: Date.now(), files: this.state.files };
+		this.props.addMessage(message);
 
 		this.setState({
 			text: '',
@@ -57,13 +55,13 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 	}
 
 	uploadFile = (file): void => {
-		this.setState((prevState) => ({files: prevState.files.concat(file) }));
+		this.setState((prevState) => ({ files: prevState.files.concat(file) }));
 	}
 
 	previewFile = (file) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
-		reader.onloadend = function() {
+		reader.onloadend = function () {
 			const img = document.createElement('img');
 			(img as any).src = reader.result;
 			document.getElementById('gallery').appendChild(img);

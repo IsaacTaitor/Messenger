@@ -1,14 +1,18 @@
 import React from 'react';
 import Message from '../../shared/Message/Message';
-import { Item } from '../../../types/store';
+import { MessagesStore } from '../../../types/store';
 import './MessageList.css';
 
-export default class MessageList extends React.PureComponent<{ messages: any }> {
+interface MessageListProps {
+	messages: MessagesStore;
+}
+
+export default class MessageList extends React.PureComponent<MessageListProps> {
 	render(): any {
 		return (
 			<div className="divMessageList">
-				{this.props.messages.map(item => (
-					<Message item={item} key={item.newItem.id}/>
+				{Object.values(this.props.messages).map(message => (
+					<Message message={message} key={message.id}/>
 				))}
 			</div>
 		);

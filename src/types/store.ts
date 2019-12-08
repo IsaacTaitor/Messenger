@@ -1,5 +1,13 @@
 export interface ApplicationStore {
-	messagesStore: Array<Item>;
+	messagesStore: MessagesStore;
 }
 
-export interface Item { id: number; text: string }
+export interface MessagesStore {
+	[id: number]: Message;
+}
+
+export interface Message {
+	text: string;
+	id: number;
+	files: Array<File>;
+}

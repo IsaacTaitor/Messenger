@@ -2,7 +2,7 @@ import React from 'react';
 import './Message.css';
 
 interface MessageProps {
-	item: any;
+	message: any;
 }
 
 interface MessageState {
@@ -14,17 +14,17 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 		result: ''
 	}
 	render(): any {
-		if (this.props.item.files.length) {
+		if (this.props.message.files.length) {
 			const reader = new FileReader();
-			reader.readAsDataURL(this.props.item.files[0]);
+			reader.readAsDataURL(this.props.message.files[0]);
 			reader.onloadend = () => {
 				this.setState({ result: reader.result });
 			};
 		}
 		return (
 			<div className="bodyMessage">
-				<div className="textMessage">{this.props.item.newItem.text}
-					{this.props.item.files.length ? <img src={this.state.result} style={{maxHeight: '100px', maxWidth: '100px'}}/> : null}
+				<div className="textMessage">{this.props.message.text}
+					{this.props.message.files.length ? <img src={this.state.result} style={{maxHeight: '100px', maxWidth: '100px'}}/> : null}
 				</div>
 			</div>
 		);
