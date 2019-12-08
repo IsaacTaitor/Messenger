@@ -1,5 +1,4 @@
 .bodyMessage {
-	min-height: 60px;
 	display: flex;
 	flex-direction: row-reverse;
 }
@@ -8,5 +7,8 @@
 	border: 1px solid grey;
 	padding: 10px;
 	margin: 10px;
+	max-width: 450px;
+	min-height: 10px;
+	word-wrap: break-word;
 	border-radius: 10px;
 }
