@@ -1,0 +1,20 @@
+#drop-area {
+	border: 1px solid grey;
+	max-height: 200px;
+}
+#drop-area.highlight {
+  border-color: purple;
+}
+#gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+	width: 500px;
+  max-height: 100px;
+}
+#gallery img {
+  height: 80px;
+  min-width: 5px;
+  margin: 10px;
+  vertical-align: middle;
+}

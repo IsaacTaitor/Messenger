@@ -1,6 +1,6 @@
 import React from 'react';
 import MessageList from '../../components/elements/MessageList/MessageList';
-import MessageInput from '../../components/elements/MessageInput/MessageInput';
+import MessageDND from '../../components/elements/MessageDND/MessageDND';
 import { MessagesStore, ApplicationStore, MessageValue } from '../../types/store';
 import './styles.css';
 
@@ -27,11 +27,11 @@ class HomeScreen extends React.Component<HomeScreenProps> {
 		const { messagesStore, addMessage } = this.props;
 		return (
 			<div className="background">
-				<header style={{background: 'white', height: '50px' }}>Чат</header>
+				<header style={{ background: 'white', height: '50px' }}>Чат</header>
 				<div className="container">
 					<div className="content">
 						<MessageList messages={messagesStore} />
-						<MessageInput addMessage={addMessage} />
+						<MessageDND addMessage={addMessage} />
 					</div>
 				</div>
 			</div>

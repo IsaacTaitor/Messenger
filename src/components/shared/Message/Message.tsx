@@ -18,7 +18,7 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 		return (
 			<div className="bodyMessage">
 				<div className="textMessage">{this.props.message.text}
-					{this.props.message.files.length ? this.state.imgs : null}
+					{this.state.imgs}
 				</div>
 			</div>
 		);
@@ -26,19 +26,18 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 
 	componentDidMount(): void {
 		const { files } = this.props.message;
-		if (files.length) {
-			files.forEach(
-				file => {
-					const reader = new FileReader();
-					reader.readAsDataURL(file);
-					reader.onloadend = (): void => {
-						this.setState(prevState => ({
-							imgs: prevState.imgs.concat(<img src={reader.result as any} className="image" alt="" />)
-						})
-						);
-					};
-				}
-			);
-		}
+		files.forEach(
+			file => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = (): void => {
+					const id = Date.now();
+					this.setState(prevState => ({
+						imgs: prevState.imgs.concat(<img src={reader.result as any} className="imageMessage" alt="" key={file.lastModified + file.name + id}/>)
+					})
+					);
+				};
+			}
+		);
 	}
 }

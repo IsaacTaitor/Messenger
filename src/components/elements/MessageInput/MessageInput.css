@@ -10,26 +10,6 @@
 .form {
   padding: 5px;
 }
-#drop-area {
-	border: 1px solid grey;
-	max-height: 200px;
-}
-#drop-area.highlight {
-  border-color: purple;
-}
-#gallery {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-	width: 500px;
-  max-height: 100px;
-}
-#gallery img {
-  height: 80px;
-  min-width: 5px;
-  margin: 10px;
-  vertical-align: middle;
-}
 .button {
   display: flex;
   justify-content: center;
@@ -41,6 +21,11 @@
 .form {
   display: flex;
   flex-direction: row;
+}
+.send {
+  border: 0px;
+	outline:none;
+  cursor: pointer;
 }
 #fileElem {
   display: none;
