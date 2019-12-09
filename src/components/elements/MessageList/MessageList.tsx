@@ -5,15 +5,16 @@ import './MessageList.css';
 
 interface MessageListProps {
 	messages: MessagesStore;
+	openModal(img: string): void;
 }
 
 export default class MessageList extends React.PureComponent<MessageListProps> {
-	render(): any {
+	render(): React.ReactElement {
 		return (
 			<div className="divMessageList">
-				{Object.values(this.props.messages).map(message => (
-					<Message message={message} key={message.id}/>
-				))}
+				{Object.values(this.props.messages).map(message =>
+					<Message message={message} key={message.id} openModal={this.props.openModal}/>
+				)}
 			</div>
 		);
 	}

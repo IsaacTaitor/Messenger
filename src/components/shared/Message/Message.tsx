@@ -4,6 +4,7 @@ import './Message.css';
 
 interface MessageProps {
 	message: MessageValue;
+	openModal(img: string): void;
 }
 
 interface MessageState {
@@ -33,7 +34,13 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 				reader.onloadend = (): void => {
 					const id = Date.now();
 					this.setState(prevState => ({
-						imgs: prevState.imgs.concat(<img src={reader.result as any} className="imageMessage" alt="" key={file.lastModified + file.name + id}/>)
+						imgs: prevState.imgs.concat(
+							<img
+								src={`${reader.result}`}
+								className="imageMessage"
+								alt=""
+								key={file.lastModified + file.name + id}
+								onClick={(): void => this.props.openModal(String(reader.result))} />)
 					})
 					);
 				};

@@ -5,6 +5,7 @@ import './MessageDND.css';
 
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
+	openModal(img: string): void;
 }
 
 interface MessageDNDState {
@@ -45,14 +46,19 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 				const id = Date.now();
 				this.setState(prevState => ({
 					previewFiles: prevState.previewFiles.concat(
-						<img src={`${reader.result}`} className="image" alt="" key={file.lastModified + file.name + id} />
+						<img
+							src={reader.result as string}
+							className="image"
+							alt=""
+							key={file.lastModified + file.name + id}
+							onClick={(): void => this.props.openModal(String(reader.result))} />
 					)
 				}));
 			};
 		});
 	}
 
-	clearFiles = () => {
+	clearFiles = (): void => {
 		this.setState({ files: [], previewFiles: [] });
 	}
 
@@ -63,7 +69,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					handleFiles={this.handleFiles}
 					addMessage={this.props.addMessage}
 					clearFiles={this.clearFiles}
-					files={this.state.files} />
+					files={this.state.files}/>
 				<div id="gallery">
 					{this.state.previewFiles}
 				</div>
