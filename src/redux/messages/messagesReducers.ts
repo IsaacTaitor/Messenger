@@ -3,7 +3,7 @@ import { MessagesStore } from '../../types/store';
 
 const initialState: MessagesStore = {};
 
-export function messagesReducer(state = initialState, action): any {
+export function messagesReducer(state = initialState, action): MessagesStore {
 	const { type, payload } = action;
 	switch (type) {
 	case ADD_MESSAGE:

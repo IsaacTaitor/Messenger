@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageValue  } from '../../../types/store';
+import { MessageValue } from '../../../types/store';
 import './Message.css';
 
 interface MessageProps {
@@ -7,14 +7,14 @@ interface MessageProps {
 }
 
 interface MessageState {
-	imgs: any;
+	imgs: Array<React.ReactElement>;
 }
 
 export default class Message extends React.PureComponent<MessageProps, MessageState> {
 	state = {
 		imgs: []
 	}
-	render(): any {
+	render(): React.ReactElement {
 		return (
 			<div className="bodyMessage">
 				<div className="textMessage">{this.props.message.text}
@@ -32,7 +32,10 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 					const reader = new FileReader();
 					reader.readAsDataURL(file);
 					reader.onloadend = (): void => {
-						this.setState(prevState => ({ imgs: prevState.imgs.concat(<img src={reader.result as any} style={{maxHeight: '150px', maxWidth: '150px'}}/>) }));
+						this.setState(prevState => ({
+							imgs: prevState.imgs.concat(<img src={reader.result as any} className="image" alt="" />)
+						})
+						);
 					};
 				}
 			);

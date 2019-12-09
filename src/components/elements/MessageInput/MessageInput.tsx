@@ -9,10 +9,11 @@ interface MessageInputProps {
 interface MessageInputState {
 	text: string;
 	files: Array<File>;
+	previewFiles: Array<React.ReactElement>;
 }
 
 export default class MessageInput extends React.PureComponent<MessageInputProps, MessageInputState> {
-	state = { text: '', files: [] };
+	state = { text: '', files: [], previewFiles: [] };
 
 	handleChange = (e): void => {
 		this.setState({ text: e.target.value });
@@ -43,38 +44,40 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 		const dt = e.dataTransfer;
 		let files = dt.files;
 		files = [...files];
-		files.forEach(this.uploadFile);
-		files.forEach(this.previewFile);
+		this.uploadFile(files);
+		this.previewFile(files);
 	};
 
 	handleFiles = (files): void => {
-		files = (files.target.files);
+		files = files.target.files;
 		files = [...files];
-		files.forEach(this.uploadFile);
-		files.forEach(this.previewFile);
+		this.uploadFile(files);
+		this.previewFile(files);
 	}
 
-	uploadFile = (file): void => {
-		this.setState((prevState) => ({ files: prevState.files.concat(file) }));
+	uploadFile = (files): void => {
+		this.setState((prevState) => ({ files: prevState.files.concat(files) }));
 	}
 
-	previewFile = (file) => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			const img = document.createElement('img');
-			(img as any).src = reader.result;
-			document.getElementById('gallery').appendChild(img);
-		};
+	previewFile = (files): void => {
+		files.forEach(file => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+				this.setState(prevState => ({
+					previewFiles: prevState.previewFiles.concat(<img src={reader.result as any} className="image" alt=""/>)
+				}));
+			};
+		});
 	}
 
-	render(): any {
+	render(): React.ReactElement {
 		return (
 			<div id="drop-area" onSubmit={this.handleSubmit}>
 				<form className="form">
 					<input type="file" id="fileElem" multiple accept="image/*" onChange={this.handleFiles} />
 					<label className="button" htmlFor="fileElem">
-						<i className="fa fa-paperclip" style={{ fontSize: '24px' }}></i>
+						<i className="fa fa-paperclip" style={{ fontSize: '24px' }}/>
 					</label>
 					<input
 						autoComplete="off"
@@ -84,17 +87,19 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 						value={this.state.text}
 					/>
 				</form>
-				<div id="gallery"></div>
+				<div id="gallery">
+					{this.state.previewFiles}
+				</div>
 			</div>
 		);
 	}
 
-	preventDefaults(e) {
+	preventDefaults(e): void {
 		e.preventDefault();
 		e.stopPropagation();
 	}
 
-	componentDidMount(): any {
+	componentDidMount(): void {
 		const dropArea = document.getElementById('drop-area');
 
 		function highlight(): void {

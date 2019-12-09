@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
 
 class HomeScreen extends React.Component<HomeScreenProps> {
 
-	render(): any {
+	render(): React.ReactElement {
 		const { messagesStore, addMessage } = this.props;
 		return (
 			<div className="background">
