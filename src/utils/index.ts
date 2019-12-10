@@ -1,3 +1,5 @@
+import { PreviewImageStorage } from '../types/store';
+
 export const dataURLToFile = (dataurl, filename) => {
 	const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
 		bstr = atob(arr[1]);
@@ -9,15 +11,30 @@ export const dataURLToFile = (dataurl, filename) => {
 	return new File([u8arr], filename, { type: mime });
 };
 
-export const filesToImage = (file) => {
+export const filesToImage = (file: PreviewImageStorage) => {
 	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			resolve(reader.result);
-		};
-		reader.onerror = () => {
-			reject(reader.error);
-		};
+		const promises = [];
+		Object.keys(file).forEach(
+			key => {
+				promises.push(
+					new Promise((resolve, reject) => {
+						const reader = new FileReader();
+						reader.readAsDataURL(file[key]);
+						reader.onloadend = () => {
+							resolve({ file: reader.result, id: key });
+						};
+						reader.onerror = () => {
+							reject(reader.error);
+						};
+					})
+				);
+			}
+		);
+
+		Promise.all(promises).then(
+			success => resolve(success)
+		).catch(
+			err => reject(err)
+		);
 	});
 };

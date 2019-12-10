@@ -39,26 +39,18 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 	uploadFile = (files: Array<File>) => {
 		files = [...files];
 		files.forEach((file) => {
-			this.props.addFilePreview(Date.now(), file);
+			this.props.addFilePreview(Math.floor(Math.random() * 100000), file);
 		});
 	}
 
 	viewImage = (modalViewImage) => {
-		const files = [];
-		if (this.state.files.length && !Object.keys(modalViewImage).length) {
-			this.setState({ files: [] });
-		} else {
-			Object.keys(modalViewImage).forEach(
-				key => {
-					filesToImage(modalViewImage[key]).then(
-						item => {
-							files.push({file: item, id: key});
-							this.setState({ files: files });
-						}
-					);
+		filesToImage(modalViewImage).then(
+			files => {
+				if (JSON.stringify(this.state.files) !== JSON.stringify(files)) {
+					this.setState({ files: files as any });
 				}
-			);
-		}
+			}
+		);
 	}
 
 	render(): React.ReactElement {
@@ -75,7 +67,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 						src={file}
 						className="image"
 						alt=""
-						key={file.lastModified + file.name + Date.now()}
+						key={id}
 						onClick={(): void => this.props.openModal(file, true, id)} />)
 					)}
 				</div>

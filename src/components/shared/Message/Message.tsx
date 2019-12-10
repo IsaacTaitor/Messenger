@@ -27,10 +27,10 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 
 	componentDidMount(): void {
 		const { files } = this.props.message;
-		Object.values(files).forEach(
-			file => {
+		Object.keys(files).forEach(
+			key => {
 				const reader = new FileReader();
-				reader.readAsDataURL(file);
+				reader.readAsDataURL(files[key]);
 				reader.onloadend = (): void => {
 					const id = Date.now();
 					this.setState(prevState => ({
@@ -39,7 +39,7 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 								src={`${reader.result}`}
 								className="imageMessage"
 								alt=""
-								key={file.lastModified + file.name + id}
+								key={key}
 								onClick={(): void => this.props.openModal(String(reader.result), false)} />)
 					})
 					);
