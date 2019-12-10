@@ -3,7 +3,8 @@ import { ModalViewImageStore } from '../../types/store';
 
 const initialState: ModalViewImageStore = {
 	isOpen: false,
-	img: null
+	img: null,
+	editable: false
 };
 
 export function modalViewImageReducer(state = initialState, action): ModalViewImageStore {
@@ -12,12 +13,14 @@ export function modalViewImageReducer(state = initialState, action): ModalViewIm
 	case OPEN_MODAL:
 		return {
 			isOpen: true,
-			img: payload.img
+			img: payload.img,
+			editable: payload.editable
 		};
 	case CLOSE_MODAL:
 		return {
 			isOpen: false,
-			img: null
+			img: null,
+			editable: false
 		};
 	default:
 		return state;

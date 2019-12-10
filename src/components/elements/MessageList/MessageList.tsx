@@ -5,7 +5,7 @@ import './MessageList.css';
 
 interface MessageListProps {
 	messages: MessagesStore;
-	openModal(img: string): void;
+	openModal(img: string, editable: boolean): void;
 }
 
 export default class MessageList extends React.PureComponent<MessageListProps> {

@@ -14,7 +14,7 @@ interface HomeScreenProps {
 	messagesStore: MessagesStore;
 	modalViewImageStore: ModalViewImageStore;
 	addMessage(Item: MessageValue): void;
-	openModal(img: string): void;
+	openModal(img: string, editable: boolean): void;
 	closeModal(): void;
 }
 

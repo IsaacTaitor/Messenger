@@ -13,3 +13,11 @@
 .img {
 	height: 400px;
 }
+
+.fa-close {
+	position: absolute;
+	right: 40px;
+	top: 40px;
+	color: white;
+	cursor: pointer;
+}

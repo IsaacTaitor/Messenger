@@ -4,7 +4,7 @@ import './Message.css';
 
 interface MessageProps {
 	message: MessageValue;
-	openModal(img: string): void;
+	openModal(img: string, editable: boolean): void;
 }
 
 interface MessageState {
@@ -40,7 +40,7 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 								className="imageMessage"
 								alt=""
 								key={file.lastModified + file.name + id}
-								onClick={(): void => this.props.openModal(String(reader.result))} />)
+								onClick={(): void => this.props.openModal(String(reader.result), false)} />)
 					})
 					);
 				};

@@ -5,7 +5,7 @@ import './MessageDND.css';
 
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
-	openModal(img: string): void;
+	openModal(img: string, editable: boolean): void;
 }
 
 interface MessageDNDState {
@@ -51,7 +51,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 							className="image"
 							alt=""
 							key={file.lastModified + file.name + id}
-							onClick={(): void => this.props.openModal(String(reader.result))} />
+							onClick={(): void => this.props.openModal(String(reader.result), true)} />
 					)
 				}));
 			};
