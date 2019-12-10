@@ -7,13 +7,13 @@ import { filesToImage } from '../../../utils';
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
 	addFilePreview(id: number, file: File): void;
-	openModal(img: string, editable: boolean): void;
+	openModal(img: string, editable: boolean, id: number): void;
 	clearFilesPreview(): void;
 	modalViewImage: PreviewImageStorage;
 }
 
 interface MessageDNDState {
-	files: Array<any>;
+	files: Array<{ id: number; file: any }>;
 }
 
 export default class MessageDND extends React.PureComponent<MessageDNDProps, MessageDNDState> {
@@ -22,7 +22,6 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 	}
 
 	handlerFunction = (e): void => {
-		console.log(e);
 		e.preventDefault();
 	}
 
@@ -39,13 +38,27 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 
 	uploadFile = (files: Array<File>) => {
 		files = [...files];
-		const result = [];
 		files.forEach((file) => {
 			this.props.addFilePreview(Date.now(), file);
-			filesToImage(file).then(
-				item => this.setState(prevState => ({ files: prevState.files.concat([item]) }))
-			);
 		});
+	}
+
+	viewImage = (modalViewImage) => {
+		const files = [];
+		if (this.state.files.length && !Object.keys(modalViewImage).length) {
+			this.setState({ files: [] });
+		} else {
+			Object.keys(modalViewImage).forEach(
+				key => {
+					filesToImage(modalViewImage[key]).then(
+						item => {
+							files.push({file: item, id: key});
+							this.setState({ files: files });
+						}
+					);
+				}
+			);
+		}
 	}
 
 	render(): React.ReactElement {
@@ -58,12 +71,12 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					files={this.props.modalViewImage}
 				/>
 				<div id="gallery">
-					{this.state.files.map((file, id) => (<img
+					{this.state.files.map(({ file, id }) => (<img
 						src={file}
 						className="image"
 						alt=""
-						key={file.lastModified + file.name + id}
-						onClick={(): void => this.props.openModal(file, true)} />)
+						key={file.lastModified + file.name + Date.now()}
+						onClick={(): void => this.props.openModal(file, true, id)} />)
 					)}
 				</div>
 			</div>
@@ -95,5 +108,8 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 			dropArea.addEventListener(eventName, unhighlight, false);
 		});
 		dropArea.addEventListener('drop', this.handleDrop, false);
+	}
+	componentDidUpdate(): void {
+		this.viewImage(this.props.modalViewImage);
 	}
 }

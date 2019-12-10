@@ -5,6 +5,7 @@ import './ModalViewImage.css';
 
 interface ModalViewImageProps {
 	modalViewImageStore: ModalViewImageStore;
+	changeFilePreview(id: number, file: File): void;
 	closeModal(): void;
 }
 
@@ -85,7 +86,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		const save = () => {
 			const dataURL = canvas.toDataURL();
 			const file = dataURLToFile(dataURL, 'newFile.png');
-			console.log(file);
+			this.props.changeFilePreview(this.props.modalViewImageStore.id, file);
 		};
 
 		const { isOpen, img, editable } = this.props.modalViewImageStore;
@@ -98,7 +99,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 						<canvas id='can' width={imgDraw.width * (400 / imgDraw.height)} height={400}></canvas>
 						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
-						<button onClick={save} />
+						<button onClick={save} >Сохранить</button>
 					</div>
 					: <div className='modal-div' >
 						<img src={img} alt='kek' className='img' id='img' />

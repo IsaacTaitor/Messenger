@@ -16,6 +16,7 @@ export interface MessageValue {
 
 export interface ModalViewImageStore {
 	isOpen: boolean;
+	id: number;
 	img: string;
 	editable: boolean;
 }
