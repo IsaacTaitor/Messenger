@@ -1,20 +1,25 @@
 import React from 'react';
-import { MessageValue } from '../../../types/store';
+import { PreviewImageStorage, MessageValue } from '../../../types/store';
 import MessageInput from '../MessageInput/MessageInput';
 import './MessageDND.css';
+import { filesToImage } from '../../../utils';
 
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
+	addFilePreview(id: number, file: File): void;
 	openModal(img: string, editable: boolean): void;
+	clearFilesPreview(): void;
+	modalViewImage: PreviewImageStorage;
 }
 
 interface MessageDNDState {
-	files: Array<File>;
-	previewFiles: Array<React.ReactElement>;
+	files: Array<any>;
 }
 
 export default class MessageDND extends React.PureComponent<MessageDNDProps, MessageDNDState> {
-	state = { files: [], previewFiles: [] };
+	state = {
+		files: []
+	}
 
 	handlerFunction = (e): void => {
 		console.log(e);
@@ -32,34 +37,15 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		files.target.value = null;
 	}
 
-	uploadFile = (files): void => {
+	uploadFile = (files: Array<File>) => {
 		files = [...files];
-		this.previewFile(files);
-		this.setState((prevState) => ({ files: prevState.files.concat(files) }));
-	}
-
-	previewFile = (files): void => {
-		files.forEach(file => {
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onloadend = (): void => {
-				const id = Date.now();
-				this.setState(prevState => ({
-					previewFiles: prevState.previewFiles.concat(
-						<img
-							src={reader.result as string}
-							className="image"
-							alt=""
-							key={file.lastModified + file.name + id}
-							onClick={(): void => this.props.openModal(String(reader.result), true)} />
-					)
-				}));
-			};
+		const result = [];
+		files.forEach((file) => {
+			this.props.addFilePreview(Date.now(), file);
+			filesToImage(file).then(
+				item => this.setState(prevState => ({ files: prevState.files.concat([item]) }))
+			);
 		});
-	}
-
-	clearFiles = (): void => {
-		this.setState({ files: [], previewFiles: [] });
 	}
 
 	render(): React.ReactElement {
@@ -68,10 +54,17 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 				<MessageInput
 					handleFiles={this.handleFiles}
 					addMessage={this.props.addMessage}
-					clearFiles={this.clearFiles}
-					files={this.state.files}/>
+					clearFiles={this.props.clearFilesPreview}
+					files={this.props.modalViewImage}
+				/>
 				<div id="gallery">
-					{this.state.previewFiles}
+					{this.state.files.map((file, id) => (<img
+						src={file}
+						className="image"
+						alt=""
+						key={file.lastModified + file.name + id}
+						onClick={(): void => this.props.openModal(file, true)} />)
+					)}
 				</div>
 			</div>
 		);

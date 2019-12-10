@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModalViewImageStore } from '../../../types/store';
+import { dataURLToFile } from '../../../utils';
 import './ModalViewImage.css';
 
 interface ModalViewImageProps {
@@ -18,6 +19,8 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 
 		const x = 'black',
 			y = 2;
+
+		
 
 		const draw = () => {
 			ctx.beginPath();
@@ -63,7 +66,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		const init = (img) => {
 			canvas = document.getElementById('can');
 			ctx = canvas.getContext('2d');
-			ctx.drawImage(img, 0, 0, img.width * (400/img.height), 400);
+			ctx.drawImage(img, 0, 0, img.width * (400 / img.height), 400);
 
 			canvas.addEventListener('mousemove', function (e) {
 				findxy('move', e);
@@ -79,6 +82,12 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 			}, false);
 		};
 
+		const save = () => {
+			const dataURL = canvas.toDataURL();
+			const file = dataURLToFile(dataURL, 'newFile.png');
+			console.log(file);
+		};
+
 		const { isOpen, img, editable } = this.props.modalViewImageStore;
 		const imgDraw = new Image();
 		imgDraw.src = img;
@@ -86,9 +95,10 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 			isOpen && (
 				editable ?
 					<div className='modal-div' onLoad={() => init(imgDraw)}>
-						<canvas id='can' width={imgDraw.width * (400/imgDraw.height)} height={400}></canvas>
+						<canvas id='can' width={imgDraw.width * (400 / imgDraw.height)} height={400}></canvas>
 						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
+						<button onClick={save} />
 					</div>
 					: <div className='modal-div' >
 						<img src={img} alt='kek' className='img' id='img' />

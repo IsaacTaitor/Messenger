@@ -1,12 +1,12 @@
 import React from 'react';
-import { MessageValue } from '../../../types/store';
+import { MessageValue, PreviewImageStorage } from '../../../types/store';
 import './MessageInput.css';
 
 interface MessageInputProps {
 	addMessage(message: MessageValue): void;
 	handleFiles(files): void;
-	clearFiles(): void;
-	files: Array<File>;
+	clearFiles?(): void;
+	files?: PreviewImageStorage;
 }
 
 interface MessageInputState {
@@ -22,7 +22,7 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 
 	handleSubmit = (e): void => {
 		e.preventDefault();
-		if (!(this.state.text.length || this.props.files.length)) {
+		if (!(this.state.text.length || Object.keys(this.props.files).length)) {
 			return;
 		}
 

@@ -5,10 +5,12 @@ import promise from 'redux-promise';
 
 import { messagesReducer } from './messages/messagesReducers';
 import { modalViewImageReducer } from './modalViewImage/modalViewImageReducers';
+import { previewImagesReducer } from './previewImages/previewImagesReducers';
 
 const persistedReducer = combineReducers({
 	messagesStore: messagesReducer,
 	modalViewImageStore: modalViewImageReducer,
+	previewImageStorage: previewImagesReducer
 });
 
 const logger = createLogger();

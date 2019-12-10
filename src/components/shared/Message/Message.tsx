@@ -27,7 +27,7 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 
 	componentDidMount(): void {
 		const { files } = this.props.message;
-		files.forEach(
+		Object.values(files).forEach(
 			file => {
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
