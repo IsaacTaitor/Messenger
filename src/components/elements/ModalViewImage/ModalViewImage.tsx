@@ -63,7 +63,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		const init = (img) => {
 			canvas = document.getElementById('can');
 			ctx = canvas.getContext('2d');
-			ctx.drawImage(img, 0, 0);
+			ctx.drawImage(img, 0, 0, img.width * (400/img.height), 400);
 
 			canvas.addEventListener('mousemove', function (e) {
 				findxy('move', e);
@@ -86,12 +86,13 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 			isOpen && (
 				editable ?
 					<div className='modal-div' onLoad={() => init(imgDraw)}>
-						<canvas id='can' width={imgDraw.width} height={imgDraw.height}></canvas>
+						<canvas id='can' width={imgDraw.width * (400/imgDraw.height)} height={400}></canvas>
 						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
 					</div>
 					: <div className='modal-div' >
 						<img src={img} alt='kek' className='img' id='img' />
+						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
 					</div>)
 		);
 	}
