@@ -22,6 +22,8 @@ interface MessageDNDState {
 	};
 }
 
+const maxAllowedFiles = 10;
+
 export default class MessageDND extends React.PureComponent<MessageDNDProps, MessageDNDState> {
 	state = {
 		images: [],
@@ -45,9 +47,19 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 
 	uploadFile = (files: Array<File>) => {
 		files = [...files];
-		files.forEach((file) => {
-			this.props.addFilePreview(Math.floor(Math.random() * 100000), file);
-		});
+		const lengthModalViewImage = Object.keys(this.props.modalViewImage).length;
+		const lengthUploadFile = files.length;
+		const allowedUpload = maxAllowedFiles - lengthModalViewImage;
+		let conf;
+		if (allowedUpload < lengthUploadFile) {
+			conf = window.confirm('Вы не можете прикрепить больше 10 файлов');
+		}
+		if (conf) {
+			for (let i = 0; i < allowedUpload; i++) {
+				const idFile =  Math.floor(Math.random() * 100000);
+				this.props.addFilePreview(idFile, files[i]);
+			}
+		}
 	}
 
 	viewImage = async (modalViewImage: PreviewImageStorage) => {
