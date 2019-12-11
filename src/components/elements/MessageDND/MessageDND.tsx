@@ -50,30 +50,19 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		});
 	}
 
-	viewImage = (modalViewImage: PreviewImageStorage): void => {
+	viewImage = async (modalViewImage: PreviewImageStorage) => {
+		const files = {};
 		Object.keys(modalViewImage).forEach(
 			key => {
-				if (this.state.files[key] === undefined) {
-					if (modalViewImage[key].type.indexOf('image') === -1) {
-						this.setState(prevState => ({
-							files: {
-								...prevState.files,
-								[key]: {
-									title: modalViewImage[key].name
-								}
-							}
-						}));
-					}
+				if (modalViewImage[key].type.indexOf('image') === -1) {
+					files[key] = { title: modalViewImage[key].name };
 				}
 			}
 		);
-		filesToImage(modalViewImage).then(
-			images => {
-				if (JSON.stringify(this.state.images) !== JSON.stringify(images)) {
-					this.setState({ images: images as any });
-				}
-			}
-		);
+		const images = await filesToImage(modalViewImage);
+		if ((JSON.stringify(this.state.images) !== JSON.stringify(images)) || (JSON.stringify(this.state.files) !== JSON.stringify(files))) {
+			this.setState({ images: images as any, files });
+		}
 	}
 
 	render(): React.ReactElement {
@@ -87,17 +76,24 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					files={this.props.modalViewImage}
 				/>
 				<div id="gallery">
-					{this.state.images.map(({ image, id }) => (<div
+					{this.state.images.map(({ image, id }) => <div
 						key={id}
 						className="image"
-						style={{ position: 'relative' }}>
+						style={{ position: 'relative', overflow: 'hidden' }}>
 						<img
 							src={image}
 							alt="img"
 							style={{ width: '100%', maxWidth: '100px' }}
 							onClick={(): void => this.props.openModal(image, true, id)} />
-						<button onClick={() => this.props.deleteFilePreview(id)} style={{ position: 'absolute', right: '0px', top: '0px' }} >X</button>
-					</div>)
+						<button onClick={() => this.props.deleteFilePreview(id)} className='close' >X</button>
+					</div>
+					)}
+				</div>
+				<div className="files">
+					{Object.keys(this.state.files).map(key =>
+						<div key={key} className='file'>{this.state.files[key].title}
+							<button onClick={() => this.props.deleteFilePreview(Number(key))} className='close' >X</button>
+						</div>
 					)}
 				</div>
 			</div>

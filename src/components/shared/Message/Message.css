@@ -15,7 +15,8 @@
 }
 
 .imageMessage {
-	width: 100%;
 	max-width: 80px;
+	max-height: 80px;
 	padding: 0px 5px;
+	overflow: hidden;
 }

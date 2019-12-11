@@ -1,6 +1,6 @@
 #drop-area {
 	border: 1px solid grey;
-	max-height: 200px;
+	max-height: 260px;
 }
 #drop-area.highlight {
   border: 1px dashed black;
@@ -17,4 +17,25 @@
   min-width: 5px;
   margin: 10px;
   vertical-align: middle;
+}
+.files {
+  display: flex;
+  flex-direction: column;
+	width: 500px;
+  max-height: 100px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+.close {
+  position: absolute;
+  right: 0px;
+  top: 0px
+}
+.file {
+  position: relative;
+  height: 20px;
+  width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
