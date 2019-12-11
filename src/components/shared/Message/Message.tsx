@@ -18,8 +18,14 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 	render(): React.ReactElement {
 		return (
 			<div className="bodyMessage">
-				<div className="textMessage">{this.props.message.text}
-					{this.state.imgs}
+				<div className="textMessage">
+					{this.props.message.text}
+					<div style={{
+						maxHeight: '100px',
+						display: 'flex'
+					}}>
+						{this.state.imgs}
+					</div>
 				</div>
 			</div>
 		);

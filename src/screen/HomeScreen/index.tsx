@@ -44,7 +44,7 @@ class HomeScreen extends React.Component<HomeScreenProps> {
 
 	render(): React.ReactElement {
 		const { messagesStore, previewImageStorage, modalViewImageStore,
-			clearFilesPreview, changeFilePreview, addMessage, addFilePreview, openModal, closeModal } = this.props;
+			clearFilesPreview, changeFilePreview, addMessage, addFilePreview, deleteFilePreview, openModal, closeModal } = this.props;
 		return (
 			<>
 				<div className="background">
@@ -55,6 +55,7 @@ class HomeScreen extends React.Component<HomeScreenProps> {
 							<MessageDND
 								addMessage={addMessage}
 								addFilePreview={addFilePreview}
+								deleteFilePreview={deleteFilePreview}
 								clearFilesPreview={clearFilesPreview}
 								openModal={openModal}
 								modalViewImage={previewImageStorage}/>

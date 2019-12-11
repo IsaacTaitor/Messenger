@@ -9,6 +9,7 @@ interface MessageDNDProps {
 	addFilePreview(id: number, file: File): void;
 	openModal(img: string, editable: boolean, id: number): void;
 	clearFilesPreview(): void;
+	deleteFilePreview(id: number): void;
 	modalViewImage: PreviewImageStorage;
 }
 
@@ -63,12 +64,16 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					files={this.props.modalViewImage}
 				/>
 				<div id="gallery">
-					{this.state.files.map(({ file, id }) => (<img
-						src={file}
-						className="image"
-						alt=""
+					{this.state.files.map(({ file, id }) => (<div
 						key={id}
-						onClick={(): void => this.props.openModal(file, true, id)} />)
+						className="image"
+						style={{position: 'relative'}}>
+						<img
+							src={file}
+							style={{width: '100%', maxWidth: '100px'}}
+							onClick={(): void => this.props.openModal(file, true, id)} />
+						<button onClick={() => this.props.deleteFilePreview(id)} style={{ position: 'absolute', right: '0px', top: '0px' }} >X</button>
+					</div>)
 					)}
 				</div>
 			</div>

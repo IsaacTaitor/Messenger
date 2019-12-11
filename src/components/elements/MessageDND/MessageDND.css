@@ -3,7 +3,7 @@
 	max-height: 200px;
 }
 #drop-area.highlight {
-  border-color: purple;
+  border: 1px dashed black;
 }
 #gallery {
   display: flex;
@@ -12,7 +12,7 @@
 	width: 500px;
   max-height: 100px;
 }
-#gallery img {
+.image {
   height: 80px;
   min-width: 5px;
   margin: 10px;
