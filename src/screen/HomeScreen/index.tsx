@@ -48,7 +48,7 @@ class HomeScreen extends React.Component<HomeScreenProps> {
 		return (
 			<>
 				<div className="background">
-					<header style={{ background: 'white', height: '50px' }}>Чат</header>
+					<header style={{ background: '#201F35', height: '50px' }}></header>
 					<div className="container">
 						<div className="content">
 							<MessageList messages={messagesStore} openModal={openModal} />
