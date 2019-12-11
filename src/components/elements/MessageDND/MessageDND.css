@@ -13,7 +13,7 @@
   max-height: 100px;
 }
 .image {
-  height: 80px;
+  max-height: 80px;
   min-width: 5px;
   margin: 10px;
   vertical-align: middle;

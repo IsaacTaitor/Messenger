@@ -21,8 +21,8 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 				<div className="textMessage">
 					{this.props.message.text}
 					<div style={{
-						maxHeight: '100px',
-						display: 'flex'
+						maxHeight: '200px',
+						display: 'relative'
 					}}>
 						{this.state.imgs}
 					</div>
