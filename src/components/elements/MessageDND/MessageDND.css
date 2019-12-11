@@ -1,6 +1,6 @@
 #drop-area {
 	border: 1px solid grey;
-	max-height: 260px;
+	max-height: 280px;
 }
 #drop-area.highlight {
   border: 1px dashed black;
@@ -20,9 +20,9 @@
 }
 .files {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 	width: 500px;
-  max-height: 100px;
+  max-height: 150px;
   flex-wrap: wrap;
   font-size: 12px;
 }
@@ -33,12 +33,17 @@
 }
 .file {
   position: relative;
-  height: 20px;
+  height: 25px;
   width: 250px;
+  padding-bottom: 5px;
 }
 .titleFile {
-  width: 230px;
+  width: 205px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.icon {
+  width: 25px;
+  height: 25px;
 }

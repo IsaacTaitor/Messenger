@@ -3,6 +3,7 @@ import { PreviewImageStorage, MessageValue } from '../../../types/store';
 import MessageInput from '../MessageInput/MessageInput';
 import './MessageDND.css';
 import { filesToImage } from '../../../utils';
+import { getIconFile } from '../../../utils/getIconFile';
 
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
@@ -18,6 +19,7 @@ interface MessageDNDState {
 	files: {
 		[id: number]: {
 			title: string;
+			type: string;
 		};
 	};
 }
@@ -49,14 +51,16 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		files = [...files];
 		const lengthModalViewImage = Object.keys(this.props.modalViewImage).length;
 		const lengthUploadFile = files.length;
-		const allowedUpload = maxAllowedFiles - lengthModalViewImage;
+		let allowedUpload = maxAllowedFiles - lengthModalViewImage;
 		let conf = true;
 		if (allowedUpload < lengthUploadFile) {
 			conf = window.confirm('Вы не можете прикрепить больше 10 файлов');
+		} else {
+			allowedUpload = lengthUploadFile;
 		}
 		if (conf) {
 			for (let i = 0; i < allowedUpload; i++) {
-				const idFile =  Math.floor(Math.random() * 100000);
+				const idFile = Math.floor(Math.random() * 100000);
 				this.props.addFilePreview(idFile, files[i]);
 			}
 		}
@@ -67,7 +71,10 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		Object.keys(modalViewImage).forEach(
 			key => {
 				if (modalViewImage[key].type.indexOf('image') === -1) {
-					files[key] = { title: modalViewImage[key].name };
+					files[key] = {
+						title: modalViewImage[key].name,
+						type: modalViewImage[key].type
+					};
 				}
 			}
 		);
@@ -78,7 +85,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 	}
 
 	render(): React.ReactElement {
-		console.log(this.state);
+		const { files, images } = this.state;
 		return (
 			<div id="drop-area">
 				<MessageInput
@@ -88,7 +95,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					files={this.props.modalViewImage}
 				/>
 				<div id="gallery">
-					{this.state.images.map(({ image, id }) => <div
+					{images.map(({ image, id }) => <div
 						key={id}
 						className="image"
 						style={{ position: 'relative', overflow: 'hidden' }}>
@@ -102,10 +109,13 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					)}
 				</div>
 				<div className="files">
-					{Object.keys(this.state.files).map(key =>
+					{Object.keys(files).map(key =>
 						<div key={key} className='file'>
-							<div className='titleFile'>
-								{this.state.files[key].title}
+							<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+								{getIconFile({ type: files[key].type })}
+								<div className='titleFile'>
+									{files[key].title}
+								</div>
 							</div>
 							<button onClick={() => this.props.deleteFilePreview(Number(key))} className='close' >X</button>
 						</div>
