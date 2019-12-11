@@ -45,12 +45,12 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		files.target.value = null;
 	}
 
-	uploadFile = (files: Array<File>) => {
+	uploadFile = (files): void => {
 		files = [...files];
 		const lengthModalViewImage = Object.keys(this.props.modalViewImage).length;
 		const lengthUploadFile = files.length;
 		const allowedUpload = maxAllowedFiles - lengthModalViewImage;
-		let conf;
+		let conf = true;
 		if (allowedUpload < lengthUploadFile) {
 			conf = window.confirm('Вы не можете прикрепить больше 10 файлов');
 		}
@@ -103,7 +103,10 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 				</div>
 				<div className="files">
 					{Object.keys(this.state.files).map(key =>
-						<div key={key} className='file'>{this.state.files[key].title}
+						<div key={key} className='file'>
+							<div className='titleFile'>
+								{this.state.files[key].title}
+							</div>
 							<button onClick={() => this.props.deleteFilePreview(Number(key))} className='close' >X</button>
 						</div>
 					)}

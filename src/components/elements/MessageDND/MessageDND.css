@@ -35,6 +35,9 @@
   position: relative;
   height: 20px;
   width: 250px;
+}
+.titleFile {
+  width: 230px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
