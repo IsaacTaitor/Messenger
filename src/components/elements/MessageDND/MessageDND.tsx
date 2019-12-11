@@ -14,12 +14,18 @@ interface MessageDNDProps {
 }
 
 interface MessageDNDState {
-	files: Array<{ id: number; file: any }>;
+	images: Array<{ id: number; file: any }>;
+	files: {
+		[id: number]: {
+			title: string;
+		};
+	};
 }
 
 export default class MessageDND extends React.PureComponent<MessageDNDProps, MessageDNDState> {
 	state = {
-		files: []
+		images: [],
+		files: {}
 	}
 
 	handlerFunction = (e): void => {
@@ -44,17 +50,34 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		});
 	}
 
-	viewImage = (modalViewImage) => {
+	viewImage = (modalViewImage: PreviewImageStorage): void => {
+		Object.keys(modalViewImage).forEach(
+			key => {
+				if (this.state.files[key] === undefined) {
+					if (modalViewImage[key].type.indexOf('image') === -1) {
+						this.setState(prevState => ({
+							files: {
+								...prevState.files,
+								[key]: {
+									title: modalViewImage[key].name
+								}
+							}
+						}));
+					}
+				}
+			}
+		);
 		filesToImage(modalViewImage).then(
-			files => {
-				if (JSON.stringify(this.state.files) !== JSON.stringify(files)) {
-					this.setState({ files: files as any });
+			images => {
+				if (JSON.stringify(this.state.images) !== JSON.stringify(images)) {
+					this.setState({ images: images as any });
 				}
 			}
 		);
 	}
 
 	render(): React.ReactElement {
+		console.log(this.state);
 		return (
 			<div id="drop-area">
 				<MessageInput
@@ -64,14 +87,15 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					files={this.props.modalViewImage}
 				/>
 				<div id="gallery">
-					{this.state.files.map(({ file, id }) => (<div
+					{this.state.images.map(({ image, id }) => (<div
 						key={id}
 						className="image"
-						style={{position: 'relative'}}>
+						style={{ position: 'relative' }}>
 						<img
-							src={file}
-							style={{width: '100%', maxWidth: '100px'}}
-							onClick={(): void => this.props.openModal(file, true, id)} />
+							src={image}
+							alt="img"
+							style={{ width: '100%', maxWidth: '100px' }}
+							onClick={(): void => this.props.openModal(image, true, id)} />
 						<button onClick={() => this.props.deleteFilePreview(id)} style={{ position: 'absolute', right: '0px', top: '0px' }} >X</button>
 					</div>)
 					)}

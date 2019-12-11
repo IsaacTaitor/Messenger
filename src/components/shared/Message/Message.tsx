@@ -25,13 +25,13 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 						maxHeight: '200px',
 						display: 'relative'
 					}}>
-						{this.state.files.map(({ file, id }) => 
+						{this.state.files.map(({ image, id }) => 
 							<img
-								src={file}
+								src={image}
 								className="imageMessage"
-								alt=""
+								alt="img"
 								key={id}
-								onClick={(): void => this.props.openModal(file, false)} />
+								onClick={(): void => this.props.openModal(image, false)} />
 						)}
 					</div>
 				</div>

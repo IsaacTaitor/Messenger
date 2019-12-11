@@ -16,18 +16,20 @@ export const filesToImage = (file: PreviewImageStorage) => {
 		const promises = [];
 		Object.keys(file).forEach(
 			key => {
-				promises.push(
-					new Promise((resolve, reject) => {
-						const reader = new FileReader();
-						reader.readAsDataURL(file[key]);
-						reader.onloadend = () => {
-							resolve({ file: reader.result, id: key });
-						};
-						reader.onerror = () => {
-							reject(reader.error);
-						};
-					})
-				);
+				if (file[key].type.indexOf('image') !== -1) {
+					promises.push(
+						new Promise((resolve, reject) => {
+							const reader = new FileReader();
+							reader.readAsDataURL(file[key]);
+							reader.onloadend = () => {
+								resolve({ image: reader.result, id: key });
+							};
+							reader.onerror = () => {
+								reject(reader.error);
+							};
+						})
+					);
+				}
 			}
 		);
 
