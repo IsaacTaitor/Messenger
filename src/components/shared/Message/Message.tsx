@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageValue } from '../../../types/store';
+import { filesToImage } from '../../../utils';
 import './Message.css';
 
 interface MessageProps {
@@ -8,12 +9,12 @@ interface MessageProps {
 }
 
 interface MessageState {
-	imgs: Array<React.ReactElement>;
+	files: Array<{ id: number; file: any }>;
 }
 
 export default class Message extends React.PureComponent<MessageProps, MessageState> {
 	state = {
-		imgs: []
+		files: []
 	}
 	render(): React.ReactElement {
 		return (
@@ -24,7 +25,14 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 						maxHeight: '200px',
 						display: 'relative'
 					}}>
-						{this.state.imgs}
+						{this.state.files.map(({ file, id }) => 
+							<img
+								src={file}
+								className="imageMessage"
+								alt=""
+								key={id}
+								onClick={(): void => this.props.openModal(file, false)} />
+						)}
 					</div>
 				</div>
 			</div>
@@ -33,23 +41,11 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 
 	componentDidMount(): void {
 		const { files } = this.props.message;
-		Object.keys(files).forEach(
-			key => {
-				const reader = new FileReader();
-				reader.readAsDataURL(files[key]);
-				reader.onloadend = (): void => {
-					const id = Date.now();
-					this.setState(prevState => ({
-						imgs: prevState.imgs.concat(
-							<img
-								src={`${reader.result}`}
-								className="imageMessage"
-								alt=""
-								key={key}
-								onClick={(): void => this.props.openModal(String(reader.result), false)} />)
-					})
-					);
-				};
+		filesToImage(files).then(
+			files => {
+				if (JSON.stringify(this.state.files) !== JSON.stringify(files)) {
+					this.setState({ files: files as any });
+				}
 			}
 		);
 	}
