@@ -27,6 +27,7 @@ interface MessageDNDState {
 const maxAllowedFiles = 10;
 
 export default class MessageDND extends React.PureComponent<MessageDNDProps, MessageDNDState> {
+	private droparea: React.RefObject<HTMLDivElement> = React.createRef();
 	state = {
 		images: [],
 		files: {}
@@ -82,17 +83,48 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		this.setState({ images: images as any, files });
 	}
 
+	preventDefaults(e): void {
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	highlight = (): void => {
+		this.droparea.current.classList.add('highlight');
+	}
+	unhighlight = (): void => {
+		this.droparea.current.classList.remove('highlight');
+	}
+	componentDidMount = (): void => {
+		const { current } = this.droparea;
+
+		['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+			current.addEventListener(eventName, this.preventDefaults, false);
+		});
+		['dragenter', 'dragover'].forEach(eventName => {
+			current.addEventListener(eventName, this.highlight, false);
+		});
+		['dragleave', 'drop'].forEach(eventName => {
+			current.addEventListener(eventName, this.unhighlight, false);
+		});
+		current.addEventListener('drop', this.handleDrop, false);
+	}
+	componentDidUpdate(prevProps): void {
+		if (prevProps.modalViewImage !== this.props.modalViewImage) {
+			this.viewImage(this.props.modalViewImage);
+		}
+	}
+
 	render(): React.ReactElement {
 		const { files, images } = this.state;
 		return (
-			<div id="drop-area">
+			<div className='drop-area' ref={this.droparea}>
 				<MessageInput
 					handleFiles={this.handleFiles}
 					addMessage={this.props.addMessage}
 					clearFiles={this.props.clearFilesPreview}
 					files={this.props.modalViewImage}
 				/>
-				<div id="gallery">
+				<div className="gallery">
 					{images.map(({ image, id }) => <div
 						key={id}
 						className="image"
@@ -123,35 +155,4 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		);
 	}
 
-	preventDefaults(e): void {
-		e.preventDefault();
-		e.stopPropagation();
-	}
-
-	componentDidMount(): void {
-		const dropArea = document.getElementById('drop-area');
-
-		function highlight(): void {
-			dropArea.classList.add('highlight');
-		}
-		function unhighlight(): void {
-			dropArea.classList.remove('highlight');
-		}
-
-		['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-			dropArea.addEventListener(eventName, this.preventDefaults, false);
-		});
-		['dragenter', 'dragover'].forEach(eventName => {
-			dropArea.addEventListener(eventName, highlight, false);
-		});
-		['dragleave', 'drop'].forEach(eventName => {
-			dropArea.addEventListener(eventName, unhighlight, false);
-		});
-		dropArea.addEventListener('drop', this.handleDrop, false);
-	}
-	componentDidUpdate(prevProps): void {
-		if (prevProps.modalViewImage !== this.props.modalViewImage) {
-			this.viewImage(this.props.modalViewImage);
-		}
-	}
 }

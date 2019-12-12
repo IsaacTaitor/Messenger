@@ -38,8 +38,8 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 	render(): React.ReactElement {
 		return (
 			<form className="form" onSubmit={this.handleSubmit}>
-				<input type="file" id="fileElem" multiple onChange={this.props.handleFiles} />
-				<label className="button" htmlFor="fileElem">
+				<label className="button">
+					<input type="file" className='fileElem' multiple onChange={this.props.handleFiles} />
 					<i className="fa fa-paperclip" style={{ fontSize: '24px' }} />
 				</label>
 				<input

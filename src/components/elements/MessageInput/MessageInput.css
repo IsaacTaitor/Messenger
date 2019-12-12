@@ -27,6 +27,6 @@
 	outline:none;
   cursor: pointer;
 }
-#fileElem {
+.fileElem {
   display: none;
 }

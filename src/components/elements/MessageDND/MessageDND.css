@@ -1,11 +1,11 @@
-#drop-area {
+.drop-area {
 	border: 1px solid grey;
 	max-height: 280px;
 }
-#drop-area.highlight {
+.drop-area.highlight {
   border: 1px dashed black;
 }
-#gallery {
+.gallery {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

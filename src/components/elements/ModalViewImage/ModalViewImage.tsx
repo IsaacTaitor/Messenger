@@ -11,11 +11,7 @@ interface ModalViewImageProps {
 }
 
 export default class ModalViewImage extends React.PureComponent<ModalViewImageProps> {
-	private canvas: React.RefObject<HTMLCanvasElement>;
-	constructor(props) {
-		super(props);
-		this.canvas = React.createRef();
-	}
+	private canvas: React.RefObject<HTMLCanvasElement> = React.createRef();
 
 	state = {
 		changeMode: false,
