@@ -20,7 +20,7 @@ export default class FileList extends React.PureComponent<FileListProps> {
 			<div className="files">
 				{Object.keys(files).map(key =>
 					<div key={key} className='file'>
-						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						<div className='bodyFile'>
 							{getIconFile({ type: files[key].type })}
 							<div className='titleFile'>
 								{files[key].title}

@@ -13,6 +13,7 @@
 .img {
 	max-height: 400px;
 	max-width: 800px;
+	display: none;
 }
 
 .fa-close {
@@ -21,6 +22,7 @@
 	top: 40px;
 	color: white;
 	cursor: pointer;
+	fontSize: 48px;
 }
 
 .previewText {
@@ -61,4 +63,8 @@
 	right: 100px;
 	cursor: pointer;
 	color: grey;
+}
+
+.canvas {
+	position: fixed;
 }

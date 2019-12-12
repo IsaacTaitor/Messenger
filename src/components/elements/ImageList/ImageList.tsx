@@ -17,12 +17,11 @@ export default class ImageList extends React.PureComponent<ImageListProps> {
 			<div className="gallery">
 				{this.props.images.map(({ image, id, title }) => <div
 					key={id}
-					className="image"
-					style={{ position: 'relative', overflow: 'hidden' }}>
+					className="image">
 					<img
 						src={image}
-						alt="img"
-						style={{ width: '100%', maxWidth: '100px' }}
+						alt={title}
+						className='imgFlatList'
 						onClick={(): void => this.props.openModal(image, true, id, title)} />
 					<button onClick={() => this.props.deleteAttachedFile(id)} className='close' >X</button>
 				</div>

@@ -40,7 +40,7 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 			<form className="form" onSubmit={this.handleSubmit}>
 				<label className="button">
 					<input type="file" className='fileElem' multiple onChange={this.props.handleFiles} />
-					<i className="fa fa-paperclip" style={{ fontSize: '24px' }} />
+					<i className="fa fa-paperclip" />
 				</label>
 				<input
 					autoComplete="off"
@@ -50,7 +50,7 @@ export default class MessageInput extends React.PureComponent<MessageInputProps,
 					value={this.state.text}
 				/>
 				<button className="send" onClick={this.handleSubmit} >
-					<i className="fa fa-send-o" style={{ fontSize: '24px' }} />
+					<i className="fa fa-send-o" />
 				</button>
 			</form>
 		);

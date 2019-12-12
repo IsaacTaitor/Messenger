@@ -45,7 +45,7 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 					<div className='filesList'>
 						{files.map(id =>
 							<div key={id} className='file'>
-								<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+								<div className='fileBody'>
 									{getIconFile({ type: message.files[id].type })}
 									<div className='titleFile'>
 										{message.files[id].name}

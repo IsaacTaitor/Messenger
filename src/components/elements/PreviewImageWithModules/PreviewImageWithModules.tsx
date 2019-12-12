@@ -101,13 +101,13 @@ export default class PreviewImageWithModules extends React.PureComponent<Preview
 			<div className='modal-div'>
 				<div className='previewDiv'>
 					<div onClick={this.save} className='previewText'>Предпросмотр</div>
-					<canvas ref={this.canvas} style={{ position: 'fixed' }} width={this.state.width} height={this.state.height} />
+					<canvas ref={this.canvas} className='canvas' width={this.state.width} height={this.state.height} />
 					{!this.state.changeMode && <div onClick={this.change} className='changeButton'>Изменить</div>}
 					{this.state.changeMode && <div onClick={this.save} className='saveButton'>Сохранить</div>}
 					{this.state.changeMode && <div onClick={() => this.clear(this.state.imgDraw, this.state.width, this.state.height)} className='clearButton'>Очистить</div>}
 				</div>
-				<i className='fa fa-close' onClick={this.close} style={{ fontSize: '48px' }} />
-				<img src={img} alt={title} className='img' style={{ display: 'none' }} />
+				<i className='fa fa-close' onClick={this.close} />
+				<img src={img} alt={title} className='img' />
 			</div>
 		);
 	}
