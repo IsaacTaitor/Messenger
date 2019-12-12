@@ -107,11 +107,18 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		const { isOpen, img, editable } = this.props.modalViewImageStore;
 		const imgDraw = new Image();
 		imgDraw.src = img;
-		let width = imgDraw.width * (400 / imgDraw.height);
-		let height = 400;
-		if (width > 800) {
-			width = 800;
-			height = imgDraw.height * (400 / imgDraw.width);
+		let width;
+		let height;
+		if ((imgDraw.height <= 400) && (imgDraw.width <= 800)) {
+			width = imgDraw.width;
+			height = imgDraw.height;
+		} else if (imgDraw.height > 400) {
+			width = imgDraw.width * (400 / imgDraw.height);
+			height = 400;
+			if (width > 800) {
+				width = 800;
+				height = imgDraw.height * (400 / imgDraw.width);
+			}
 		}
 		return (
 			isOpen && (
@@ -134,7 +141,12 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 							})} className='changeButton'>Изменить</div>}
 							{this.state.changeMode && <div onClick={() => this.clear(imgDraw, width, height)} className='clearButton'>Очистить</div>}
 						</div>
-						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
+						<i className='fa fa-close' onClick={(): void => {
+							this.setState({
+								changeMode: false
+							});
+							this.props.closeModal();
+						}} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
 					</div>
 					: <div className='modal-div' >
