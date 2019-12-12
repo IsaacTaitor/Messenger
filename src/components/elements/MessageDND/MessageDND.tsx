@@ -1,5 +1,5 @@
 import React from 'react';
-import { PreviewImageStorage, MessageValue } from '../../../types/store';
+import { AttachedFilesStore, MessageValue } from '../../../types/store';
 import MessageInput from '../MessageInput/MessageInput';
 import './MessageDND.css';
 import { filesToImage } from '../../../utils';
@@ -7,11 +7,11 @@ import { getIconFile } from '../../../utils/getIconFile';
 
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
-	addFilePreview(id: number, file: File): void;
+	addAttachedFile(id: number, file: File): void;
 	openModal(img: string, editable: boolean, id: number): void;
-	clearFilesPreview(): void;
-	deleteFilePreview(id: number): void;
-	modalViewImage: PreviewImageStorage;
+	clearAttachedFiles(): void;
+	deleteAttachedFile(id: number): void;
+	modalViewImage: AttachedFilesStore;
 }
 
 interface MessageDNDState {
@@ -62,12 +62,12 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		if (conf) {
 			for (let i = 0; i < allowedUpload; i++) {
 				const idFile = Math.floor(Math.random() * 100000);
-				this.props.addFilePreview(idFile, files[i]);
+				this.props.addAttachedFile(idFile, files[i]);
 			}
 		}
 	}
 
-	viewImage = async (modalViewImage: PreviewImageStorage) => {
+	viewImage = async (modalViewImage: AttachedFilesStore) => {
 		const files = {};
 		Object.keys(modalViewImage).forEach(
 			key => {
@@ -121,7 +121,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 				<MessageInput
 					handleFiles={this.handleFiles}
 					addMessage={this.props.addMessage}
-					clearFiles={this.props.clearFilesPreview}
+					clearFiles={this.props.clearAttachedFiles}
 					files={this.props.modalViewImage}
 				/>
 				<div className="gallery">
@@ -134,7 +134,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 							alt="img"
 							style={{ width: '100%', maxWidth: '100px' }}
 							onClick={(): void => this.props.openModal(image, true, id)} />
-						<button onClick={() => this.props.deleteFilePreview(id)} className='close' >X</button>
+						<button onClick={() => this.props.deleteAttachedFile(id)} className='close' >X</button>
 					</div>
 					)}
 				</div>
@@ -147,7 +147,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 									{files[key].title}
 								</div>
 							</div>
-							<button onClick={() => this.props.deleteFilePreview(Number(key))} className='close' >X</button>
+							<button onClick={() => this.props.deleteAttachedFile(Number(key))} className='close' >X</button>
 						</div>
 					)}
 				</div>

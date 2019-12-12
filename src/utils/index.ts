@@ -1,4 +1,4 @@
-import { PreviewImageStorage } from '../types/store';
+import { AttachedFilesStore } from '../types/store';
 
 export const dataURLToFile = (dataurl, filename) => {
 	const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -11,7 +11,7 @@ export const dataURLToFile = (dataurl, filename) => {
 	return new File([u8arr], filename, { type: mime });
 };
 
-export const filesToImage = (file: PreviewImageStorage) => {
+export const filesToImage = (file: AttachedFilesStore) => {
 	return new Promise((resolve, reject) => {
 		const promises = [];
 		Object.keys(file).forEach(

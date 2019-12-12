@@ -1,12 +1,12 @@
 import React from 'react';
-import { MessageValue, PreviewImageStorage } from '../../../types/store';
+import { MessageValue, AttachedFilesStore } from '../../../types/store';
 import './MessageInput.css';
 
 interface MessageInputProps {
 	addMessage(message: MessageValue): void;
 	handleFiles(files): void;
 	clearFiles?(): void;
-	files?: PreviewImageStorage;
+	files?: AttachedFilesStore;
 }
 
 interface MessageInputState {

@@ -1,7 +1,7 @@
 export interface ApplicationStore {
 	messagesStore: MessagesStore;
 	modalViewImageStore: ModalViewImageStore;
-	previewImageStorage: PreviewImageStorage;
+	attachedFilesStore: AttachedFilesStore;
 }
 
 export interface MessagesStore {
@@ -11,7 +11,7 @@ export interface MessagesStore {
 export interface MessageValue {
 	text: string;
 	id: number;
-	files: PreviewImageStorage;
+	files: AttachedFilesStore;
 }
 
 export interface ModalViewImageStore {
@@ -21,6 +21,6 @@ export interface ModalViewImageStore {
 	editable: boolean;
 }
 
-export interface PreviewImageStorage {
+export interface AttachedFilesStore {
 	[id: number]: File;
 }

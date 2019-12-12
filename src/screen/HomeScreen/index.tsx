@@ -2,49 +2,49 @@ import React from 'react';
 import MessageList from '../../components/elements/MessageList/MessageList';
 import MessageDND from '../../components/elements/MessageDND/MessageDND';
 import ModalViewImage from '../../components/elements/ModalViewImage/ModalViewImage';
-import { ApplicationStore, MessagesStore, PreviewImageStorage, ModalViewImageStore, MessageValue } from '../../types/store';
+import { ApplicationStore, MessagesStore, AttachedFilesStore, ModalViewImageStore, MessageValue } from '../../types/store';
 import './styles.css';
 
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { addMessage } from '../../redux/messages/messagesActions';
 import { openModal, closeModal } from '../../redux/modalViewImage/modalViewImageActions';
-import { addFilePreview, changeFilePreview, deleteFilePreview, clearFilesPreview } from '../../redux/previewImages/previewImagesActions';
+import { addAttachedFile, changeAttachedFile, deleteAttachedFile, clearAttachedFiles } from '../../redux/attachedFiles/attachedFilesActions';
 
 interface HomeScreenProps {
 	messagesStore: MessagesStore;
-	previewImageStorage: PreviewImageStorage;
+	attachedFilesStore: AttachedFilesStore;
 	modalViewImageStore: ModalViewImageStore;
 	addMessage(Item: MessageValue): void;
 	openModal(img: string, editable: boolean): void;
 	closeModal(): void;
-	addFilePreview(id: number, file: File): void;
-	changeFilePreview(id: number, file: File): void;
-	deleteFilePreview(id: number): void;
-	clearFilesPreview(): void;
+	addAttachedFile(id: number, file: File): void;
+	changeAttachedFile(id: number, file: File): void;
+	deleteAttachedFile(id: number): void;
+	clearAttachedFiles(): void;
 }
 
 const mapStateToProps = (state: ApplicationStore) => ({
 	messagesStore: state.messagesStore,
 	modalViewImageStore: state.modalViewImageStore,
-	previewImageStorage: state.previewImageStorage
+	attachedFilesStore: state.attachedFilesStore
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
 	addMessage: bindActionCreators(addMessage, dispatch),
 	openModal: bindActionCreators(openModal, dispatch),
 	closeModal: bindActionCreators(closeModal, dispatch),
-	addFilePreview: bindActionCreators(addFilePreview, dispatch),
-	changeFilePreview: bindActionCreators(changeFilePreview, dispatch),
-	deleteFilePreview: bindActionCreators(deleteFilePreview, dispatch),
-	clearFilesPreview: bindActionCreators(clearFilesPreview, dispatch)
+	addAttachedFile: bindActionCreators(addAttachedFile, dispatch),
+	changeAttachedFile: bindActionCreators(changeAttachedFile, dispatch),
+	deleteAttachedFile: bindActionCreators(deleteAttachedFile, dispatch),
+	clearAttachedFiles: bindActionCreators(clearAttachedFiles, dispatch)
 });
 
 class HomeScreen extends React.Component<HomeScreenProps> {
 
 	render(): React.ReactElement {
-		const { messagesStore, previewImageStorage, modalViewImageStore,
-			clearFilesPreview, changeFilePreview, addMessage, addFilePreview, deleteFilePreview, openModal, closeModal } = this.props;
+		const { messagesStore, attachedFilesStore, modalViewImageStore,
+			clearAttachedFiles, changeAttachedFile, addMessage, addAttachedFile, deleteAttachedFile, openModal, closeModal } = this.props;
 		return (
 			<>
 				<div className="background">
@@ -54,15 +54,15 @@ class HomeScreen extends React.Component<HomeScreenProps> {
 							<MessageList messages={messagesStore} openModal={openModal} />
 							<MessageDND
 								addMessage={addMessage}
-								addFilePreview={addFilePreview}
-								deleteFilePreview={deleteFilePreview}
-								clearFilesPreview={clearFilesPreview}
+								addAttachedFile={addAttachedFile}
+								deleteAttachedFile={deleteAttachedFile}
+								clearAttachedFiles={clearAttachedFiles}
 								openModal={openModal}
-								modalViewImage={previewImageStorage}/>
+								modalViewImage={attachedFilesStore}/>
 						</div>
 					</div>
 				</div>
-				<ModalViewImage modalViewImageStore={modalViewImageStore} closeModal={closeModal} changeFilePreview={changeFilePreview}/>
+				<ModalViewImage modalViewImageStore={modalViewImageStore} closeModal={closeModal} changeAttachedFile={changeAttachedFile}/>
 			</>
 		);
 	}

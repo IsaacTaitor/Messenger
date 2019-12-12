@@ -6,7 +6,7 @@ import './ModalViewImage.css';
 
 interface ModalViewImageProps {
 	modalViewImageStore: ModalViewImageStore;
-	changeFilePreview(id: number, file: File): void;
+	changeAttachedFile(id: number, file: File): void;
 	closeModal(): void;
 }
 
@@ -28,7 +28,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		clearEventListenerPen(this.canvas.current);
 		const dataURL = this.canvas.current.toDataURL();
 		const file = dataURLToFile(dataURL, 'newFile.png');
-		this.props.changeFilePreview(this.props.modalViewImageStore.id, file);
+		this.props.changeAttachedFile(this.props.modalViewImageStore.id, file);
 		this.setState({
 			changeMode: false
 		});
