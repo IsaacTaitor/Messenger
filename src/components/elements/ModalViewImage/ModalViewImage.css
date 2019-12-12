@@ -22,3 +22,33 @@
 	color: white;
 	cursor: pointer;
 }
+
+.previewText {
+	position: absolute;
+	top: 5px;
+	outline: none;
+	color: white;
+}
+
+.saveButton {
+	position: absolute;
+	bottom: 10px;
+	cursor: pointer;
+	left: 100px;
+	color: grey;
+}
+
+.changeButton {
+	position: absolute;
+	bottom: 10px;
+	cursor: pointer;
+	color: grey;
+}
+
+.clearButton {
+	position: absolute;
+	bottom: 10px;
+	right: 100px;
+	cursor: pointer;
+	color: grey;
+}

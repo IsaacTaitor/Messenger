@@ -24,11 +24,14 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		prevY: 0,
 		currY: 0,
 		flag: false,
-		dotFlag: false
+		dotFlag: false,
+		changeMode: false,
+		ctx: null
 	}
 
-	findxy = (res, e, ctx) => {
-		if (res === 'down') {
+	findxy = (res, e) => {
+		const { ctx } = this.state;
+		if (res === 'down' && this.state.changeMode) {
 			this.setState({
 				prevX: this.state.currX,
 				prevY: this.state.currY,
@@ -37,7 +40,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 				flag: true,
 				dotFlag: true
 			});
-			if (this.state. dotFlag) {
+			if (this.state.dotFlag) {
 				ctx.beginPath();
 				ctx.fillStyle = this.state.x;
 				ctx.fillRect(this.state.currX, this.state.currY, 2, 2);
@@ -59,20 +62,22 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 					prevY: this.state.currY,
 					currX: e.clientX - this.canvas.current.offsetLeft,
 					currY: e.clientY - this.canvas.current.offsetTop
-				})
+				});
 				this.draw(ctx);
 			}
 		}
 	};
 
 	init = (img, width, height) => {
-		const ctx = this.canvas.current.getContext('2d');
-		ctx.drawImage(img, 0, 0, width, height);
+		this.setState({
+			ctx: this.canvas.current.getContext('2d')
+		});
+		this.canvas.current.getContext('2d').drawImage(img, 0, 0, width, height);
 
-		this.canvas.current.addEventListener('mousemove', (e) => this.findxy('move', e, ctx), false);
-		this.canvas.current.addEventListener('mousedown', (e) => this.findxy('down', e, ctx), false);
-		this.canvas.current.addEventListener('mouseup', (e) => this.findxy('up', e, ctx), false);
-		this.canvas.current.addEventListener('mouseout', (e) => this.findxy('out', e, ctx), false);
+		this.canvas.current.addEventListener('mousemove', (e) => this.findxy('move', e), false);
+		this.canvas.current.addEventListener('mousedown', (e) => this.findxy('down', e), false);
+		this.canvas.current.addEventListener('mouseup', (e) => this.findxy('up', e), false);
+		this.canvas.current.addEventListener('mouseout', (e) => this.findxy('out', e), false);
 	};
 
 	draw = (ctx) => {
@@ -89,7 +94,14 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		const dataURL = this.canvas.current.toDataURL();
 		const file = dataURLToFile(dataURL, 'newFile.png');
 		this.props.changeFilePreview(this.props.modalViewImageStore.id, file);
+		this.setState({
+			changeMode: false
+		});
 	};
+
+	clear = (img, width, height) => {
+		this.canvas.current.getContext('2d').drawImage(img, 0, 0, width, height);
+	}
 
 	render(): React.ReactElement {
 		const { isOpen, img, editable } = this.props.modalViewImageStore;
@@ -105,10 +117,25 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 			isOpen && (
 				editable ?
 					<div className='modal-div' onLoad={() => this.init(imgDraw, width, height)}>
-						<canvas ref={this.canvas} width={width} height={height}></canvas>
+						<div style={{
+							width: '850px',
+							height: '500px',
+							background: '#202020',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							position: 'relative'
+						}}>
+							<div onClick={this.save} className='previewText'>Предпросмотр</div>
+							<canvas ref={this.canvas} style={{ position: 'fixed' }} width={width} height={height} />
+							{this.state.changeMode && <div onClick={this.save} className='saveButton'>Сохранить</div>}
+							{!this.state.changeMode && <div onClick={() => this.setState({
+								changeMode: true
+							})} className='changeButton'>Изменить</div>}
+							{this.state.changeMode && <div onClick={() => this.clear(imgDraw, width, height)} className='clearButton'>Очистить</div>}
+						</div>
 						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
-						<button onClick={this.save} >Сохранить</button>
 					</div>
 					: <div className='modal-div' >
 						<img src={img} alt='kek' className='img' id='img' />
