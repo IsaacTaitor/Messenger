@@ -79,9 +79,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 			}
 		);
 		const images = await filesToImage(modalViewImage);
-		if ((JSON.stringify(this.state.images) !== JSON.stringify(images)) || (JSON.stringify(this.state.files) !== JSON.stringify(files))) {
-			this.setState({ images: images as any, files });
-		}
+		this.setState({ images: images as any, files });
 	}
 
 	render(): React.ReactElement {
@@ -151,7 +149,9 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 		});
 		dropArea.addEventListener('drop', this.handleDrop, false);
 	}
-	componentDidUpdate(): void {
-		this.viewImage(this.props.modalViewImage);
+	componentDidUpdate(prevProps): void {
+		if (prevProps.modalViewImage !== this.props.modalViewImage) {
+			this.viewImage(this.props.modalViewImage);
+		}
 	}
 }

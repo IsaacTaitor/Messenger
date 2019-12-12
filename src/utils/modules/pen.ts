@@ -11,7 +11,7 @@ let ctx, flag = false,
 const x = 'black',
 	y = 2;
 
-function draw() {
+function draw(): void {
 	ctx.beginPath();
 	ctx.moveTo(prevX, prevY);
 	ctx.lineTo(currX, currY);
@@ -21,7 +21,7 @@ function draw() {
 	ctx.closePath();
 }
 
-function findxy(res, e) {
+function findxy(res, e): void {
 	if ((res === 'down') && changeMode) {
 		prevX = currX;
 		prevY = currY;
@@ -52,16 +52,16 @@ function findxy(res, e) {
 	}
 }
 
-const moveMouse = (e) => findxy('move', e);
+const moveMouse = (e): void => findxy('move', e);
 
-const moveDown = (e) => findxy('down', e);
+const moveDown = (e): void => findxy('down', e);
 
-const moveUp = (e) => findxy('up', e);
+const moveUp = (e): void => findxy('up', e);
 
-const moveOut = (e) => findxy('out', e);
+const moveOut = (e): void => findxy('out', e);
 
 
-export function pen(newCanvas) {
+export function pen(newCanvas): void {
 	ctx = newCanvas.getContext('2d');
 	canvas = newCanvas;
 	canvas.addEventListener('mousemove', moveMouse, false);
@@ -70,11 +70,11 @@ export function pen(newCanvas) {
 	canvas.addEventListener('mouseout', moveOut, false);
 }
 
-export function changeModePen(newChangeMode) {
+export function changeModePen(newChangeMode): void {
 	changeMode = newChangeMode;
 }
 
-export function clearEventListener(canvas) {
+export function clearEventListenerPen(canvas): void {
 	canvas.removeEventListener('mousemove', moveMouse, false);
 	canvas.removeEventListener('mousedown', moveDown, false);
 	canvas.removeEventListener('mouseup', moveUp, false);

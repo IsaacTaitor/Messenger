@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalViewImageStore } from '../../../types/store';
 import { dataURLToFile } from '../../../utils';
-import { pen, clearEventListener, changeModePen } from '../../../utils/modules/pen';
+import { pen, clearEventListenerPen, changeModePen } from '../../../utils/modules/pen';
 import './ModalViewImage.css';
 
 interface ModalViewImageProps {
@@ -43,7 +43,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 	}
 
 	componentWillUnmount() {
-		clearEventListener(this.canvas.current);
+		clearEventListenerPen(this.canvas.current);
 	}
 
 	render(): React.ReactElement {
@@ -80,7 +80,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 							<canvas ref={this.canvas} style={{ position: 'fixed' }} width={width} height={height} />
 							{this.state.changeMode && <div onClick={() => {
 								this.save();
-								clearEventListener(this.canvas.current);
+								clearEventListenerPen(this.canvas.current);
 							}} className='saveButton'>Сохранить</div>}
 							{!this.state.changeMode && <div onClick={() => {
 								this.setState({
@@ -90,14 +90,14 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 							}} className='changeButton'>Изменить</div>}
 							{this.state.changeMode && <div onClick={() => {
 								this.clear(imgDraw, width, height);
-								clearEventListener(this.canvas.current);
+								clearEventListenerPen(this.canvas.current);
 							}} className='clearButton'>Очистить</div>}
 						</div>
 						<i className='fa fa-close' onClick={(): void => {
 							this.setState({
 								changeMode: false
 							});
-							clearEventListener(this.canvas.current);
+							clearEventListenerPen(this.canvas.current);
 							this.props.closeModal();
 						}} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
