@@ -5,43 +5,11 @@
 .drop-area.highlight {
   border: 1px dashed black;
 }
-.gallery {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-	width: 500px;
-  max-height: 100px;
-}
-.image {
-  max-height: 80px;
-  min-width: 5px;
-  margin: 10px;
-  vertical-align: middle;
-}
-.files {
-  display: flex;
-  flex-direction: row;
-	width: 500px;
-  max-height: 150px;
-  flex-wrap: wrap;
-  font-size: 12px;
-}
-.close {
-  position: absolute;
-  right: 0px;
-  top: 0px
-}
 .file {
   position: relative;
   height: 25px;
   width: 250px;
   padding-bottom: 5px;
-}
-.titleFile {
-  width: 205px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 .icon {
   width: 25px;

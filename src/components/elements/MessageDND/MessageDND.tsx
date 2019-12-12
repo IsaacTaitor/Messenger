@@ -1,9 +1,10 @@
 import React from 'react';
 import { AttachedFilesStore, MessageValue } from '../../../types/store';
 import MessageInput from '../MessageInput/MessageInput';
+import ImageList from '../ImageList/ImageList';
+import FileList from '../FileList/FileList';
 import './MessageDND.css';
 import { filesToImage } from '../../../utils';
-import { getIconFile } from '../../../utils/getIconFile';
 
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
@@ -18,7 +19,7 @@ interface MessageDNDState {
 	images: Array<{
 		id: number;
 		title: string;
-		file: any;
+		image: any;
 	}>;
 	files: {
 		[id: number]: {
@@ -120,41 +121,17 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 
 	render(): React.ReactElement {
 		const { files, images } = this.state;
+		const { openModal, deleteAttachedFile, addMessage, clearAttachedFiles, modalViewImage } = this.props;
 		return (
 			<div className='drop-area' ref={this.droparea}>
 				<MessageInput
 					handleFiles={this.handleFiles}
-					addMessage={this.props.addMessage}
-					clearFiles={this.props.clearAttachedFiles}
-					files={this.props.modalViewImage}
+					addMessage={addMessage}
+					clearFiles={clearAttachedFiles}
+					files={modalViewImage}
 				/>
-				<div className="gallery">
-					{images.map(({ image, id, title }) => <div
-						key={id}
-						className="image"
-						style={{ position: 'relative', overflow: 'hidden' }}>
-						<img
-							src={image}
-							alt="img"
-							style={{ width: '100%', maxWidth: '100px' }}
-							onClick={(): void => this.props.openModal(image, true, id, title)} />
-						<button onClick={() => this.props.deleteAttachedFile(id)} className='close' >X</button>
-					</div>
-					)}
-				</div>
-				<div className="files">
-					{Object.keys(files).map(key =>
-						<div key={key} className='file'>
-							<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-								{getIconFile({ type: files[key].type })}
-								<div className='titleFile'>
-									{files[key].title}
-								</div>
-							</div>
-							<button onClick={() => this.props.deleteAttachedFile(Number(key))} className='close' >X</button>
-						</div>
-					)}
-				</div>
+				<ImageList images={images} openModal={openModal} deleteAttachedFile={deleteAttachedFile} />
+				<FileList files={files} deleteAttachedFile={deleteAttachedFile} />
 			</div>
 		);
 	}

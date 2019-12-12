@@ -1,0 +1,14 @@
+.files {
+	display: flex;
+	flex-direction: row;
+	width: 500px;
+	max-height: 150px;
+	flex-wrap: wrap;
+	font-size: 12px;
+}
+.titleFile {
+	width: 205px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
