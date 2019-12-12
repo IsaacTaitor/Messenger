@@ -1,6 +1,7 @@
 import React from 'react';
 import { ModalViewImageStore } from '../../../types/store';
 import { dataURLToFile } from '../../../utils';
+import { pen, clearEventListener, changeModePen } from '../../../utils/modules/pen';
 import './ModalViewImage.css';
 
 interface ModalViewImageProps {
@@ -17,80 +18,14 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 	}
 
 	state = {
-		x: 'black',
-		y: 2,
-		prevX: 0,
-		currX: 0,
-		prevY: 0,
-		currY: 0,
-		flag: false,
-		dotFlag: false,
 		changeMode: false,
-		ctx: null
 	}
 
-	findxy = (res, e) => {
-		const { ctx } = this.state;
-		if (res === 'down' && this.state.changeMode) {
-			this.setState({
-				prevX: this.state.currX,
-				prevY: this.state.currY,
-				currX: e.clientX - this.canvas.current.offsetLeft,
-				currY: e.clientY - this.canvas.current.offsetTop,
-				flag: true,
-				dotFlag: true
-			});
-			if (this.state.dotFlag) {
-				ctx.beginPath();
-				ctx.fillStyle = this.state.x;
-				ctx.fillRect(this.state.currX, this.state.currY, 2, 2);
-				ctx.closePath();
-				this.setState({
-					dotFlag: false
-				});
-			}
-		}
-		if (res === 'up' || res === 'out') {
-			this.setState({
-				flag: false
-			});
-		}
-		if (res === 'move') {
-			if (this.state.flag) {
-				this.setState({
-					prevX: this.state.currX,
-					prevY: this.state.currY,
-					currX: e.clientX - this.canvas.current.offsetLeft,
-					currY: e.clientY - this.canvas.current.offsetTop
-				});
-				this.draw(ctx);
-			}
-		}
-	};
-
-	init = (img, width, height) => {
-		this.setState({
-			ctx: this.canvas.current.getContext('2d')
-		});
+	init = (img, width, height): void => {
 		this.canvas.current.getContext('2d').drawImage(img, 0, 0, width, height);
-
-		this.canvas.current.addEventListener('mousemove', (e) => this.findxy('move', e), false);
-		this.canvas.current.addEventListener('mousedown', (e) => this.findxy('down', e), false);
-		this.canvas.current.addEventListener('mouseup', (e) => this.findxy('up', e), false);
-		this.canvas.current.addEventListener('mouseout', (e) => this.findxy('out', e), false);
 	};
 
-	draw = (ctx) => {
-		ctx.beginPath();
-		ctx.moveTo(this.state.prevX, this.state.prevY);
-		ctx.lineTo(this.state.currX, this.state.currY);
-		ctx.strokeStyle = this.state.x;
-		ctx.lineWidth = this.state.y;
-		ctx.stroke();
-		ctx.closePath();
-	};
-
-	save = () => {
+	save = (): void => {
 		const dataURL = this.canvas.current.toDataURL();
 		const file = dataURLToFile(dataURL, 'newFile.png');
 		this.props.changeFilePreview(this.props.modalViewImageStore.id, file);
@@ -99,8 +34,16 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		});
 	};
 
-	clear = (img, width, height) => {
+	clear = (img, width, height): void => {
 		this.canvas.current.getContext('2d').drawImage(img, 0, 0, width, height);
+	}
+
+	componentDidUpdate() {
+		changeModePen(this.state.changeMode);
+	}
+
+	componentWillUnmount() {
+		clearEventListener(this.canvas.current);
 	}
 
 	render(): React.ReactElement {
@@ -135,16 +78,26 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 						}}>
 							<div onClick={this.save} className='previewText'>Предпросмотр</div>
 							<canvas ref={this.canvas} style={{ position: 'fixed' }} width={width} height={height} />
-							{this.state.changeMode && <div onClick={this.save} className='saveButton'>Сохранить</div>}
-							{!this.state.changeMode && <div onClick={() => this.setState({
-								changeMode: true
-							})} className='changeButton'>Изменить</div>}
-							{this.state.changeMode && <div onClick={() => this.clear(imgDraw, width, height)} className='clearButton'>Очистить</div>}
+							{this.state.changeMode && <div onClick={() => {
+								this.save();
+								clearEventListener(this.canvas.current);
+							}} className='saveButton'>Сохранить</div>}
+							{!this.state.changeMode && <div onClick={() => {
+								this.setState({
+									changeMode: true
+								});
+								pen(this.canvas.current);
+							}} className='changeButton'>Изменить</div>}
+							{this.state.changeMode && <div onClick={() => {
+								this.clear(imgDraw, width, height);
+								clearEventListener(this.canvas.current);
+							}} className='clearButton'>Очистить</div>}
 						</div>
 						<i className='fa fa-close' onClick={(): void => {
 							this.setState({
 								changeMode: false
 							});
+							clearEventListener(this.canvas.current);
 							this.props.closeModal();
 						}} style={{ fontSize: '48px' }} />
 						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
