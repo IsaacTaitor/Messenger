@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/Messenger/static/css/main.d4833a01.chunk.css",
-    "main.js": "/Messenger/static/js/main.480dfb03.chunk.js",
-    "main.js.map": "/Messenger/static/js/main.480dfb03.chunk.js.map",
+    "main.css": "/Messenger/static/css/main.69c7ab65.chunk.css",
+    "main.js": "/Messenger/static/js/main.9111d352.chunk.js",
+    "main.js.map": "/Messenger/static/js/main.9111d352.chunk.js.map",
     "runtime-main.js": "/Messenger/static/js/runtime-main.1ef76a35.js",
     "runtime-main.js.map": "/Messenger/static/js/runtime-main.1ef76a35.js.map",
-    "static/js/2.3ee193b3.chunk.js": "/Messenger/static/js/2.3ee193b3.chunk.js",
-    "static/js/2.3ee193b3.chunk.js.map": "/Messenger/static/js/2.3ee193b3.chunk.js.map",
+    "static/js/2.7fac6a17.chunk.js": "/Messenger/static/js/2.7fac6a17.chunk.js",
+    "static/js/2.7fac6a17.chunk.js.map": "/Messenger/static/js/2.7fac6a17.chunk.js.map",
     "index.html": "/Messenger/index.html",
-    "precache-manifest.011ef8893f3ebda208ba5041371b678f.js": "/Messenger/precache-manifest.011ef8893f3ebda208ba5041371b678f.js",
+    "precache-manifest.296da24671c3c870ff31ea276f143114.js": "/Messenger/precache-manifest.296da24671c3c870ff31ea276f143114.js",
     "service-worker.js": "/Messenger/service-worker.js",
-    "static/css/main.d4833a01.chunk.css.map": "/Messenger/static/css/main.d4833a01.chunk.css.map",
-    "static/js/2.3ee193b3.chunk.js.LICENSE": "/Messenger/static/js/2.3ee193b3.chunk.js.LICENSE",
+    "static/css/main.69c7ab65.chunk.css.map": "/Messenger/static/css/main.69c7ab65.chunk.css.map",
+    "static/js/2.7fac6a17.chunk.js.LICENSE": "/Messenger/static/js/2.7fac6a17.chunk.js.LICENSE",
     "static/media/file.png": "/Messenger/static/media/file.187cd7ea.png"
   },
   "entrypoints": [
     "static/js/runtime-main.1ef76a35.js",
-    "static/js/2.3ee193b3.chunk.js",
-    "static/css/main.d4833a01.chunk.css",
-    "static/js/main.480dfb03.chunk.js"
+    "static/js/2.7fac6a17.chunk.js",
+    "static/css/main.69c7ab65.chunk.css",
+    "static/js/main.9111d352.chunk.js"
   ]
 }
