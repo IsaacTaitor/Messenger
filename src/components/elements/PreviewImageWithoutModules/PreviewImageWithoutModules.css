@@ -1,0 +1,23 @@
+.modal-div {
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0,0,0,0.7);
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.img {
+	max-height: 400px;
+	max-width: 800px;
+}
+.fa-close {
+	position: absolute;
+	right: 40px;
+	top: 40px;
+	color: white;
+	cursor: pointer;
+	font-size: 48px;
+}

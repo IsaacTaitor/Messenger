@@ -25,6 +25,6 @@ export const getIconFile = ({ type }: FileProps): React.ReactElement => {
 	}
 
 	return (
-		<img className='icon' src={selectedIcon} />
+		<img className='icon' src={selectedIcon} alt='file extension icon'/>
 	);
 };
