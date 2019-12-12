@@ -14,7 +14,7 @@ export default class PreviewImageWithoutModules extends React.PureComponent<Prev
 		const { img, title } = modalViewImageStore;
 		return (
 			<div className='modal-div' >
-				<img src={img} alt={title} className='img' />
+				<img src={img} alt={title} className='imgWithoutModules' />
 				<i className='fa fa-close' onClick={closeModal} />
 			</div>
 		);
