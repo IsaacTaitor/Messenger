@@ -19,6 +19,7 @@ export interface ModalViewImageStore {
 	id: number;
 	img: string;
 	editable: boolean;
+	title: string;
 }
 
 export interface AttachedFilesStore {

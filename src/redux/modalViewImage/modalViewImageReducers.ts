@@ -5,6 +5,7 @@ const initialState: ModalViewImageStore = {
 	isOpen: false,
 	img: null,
 	id: null,
+	title: '',
 	editable: false
 };
 
@@ -16,6 +17,7 @@ export function modalViewImageReducer(state = initialState, action): ModalViewIm
 			isOpen: true,
 			img: payload.img,
 			id: payload.id,
+			title: payload.title,
 			editable: payload.editable
 		};
 	case CLOSE_MODAL:
@@ -23,6 +25,7 @@ export function modalViewImageReducer(state = initialState, action): ModalViewIm
 			isOpen: false,
 			img: null,
 			id: null,
+			title: '',
 			editable: false
 		};
 	default:

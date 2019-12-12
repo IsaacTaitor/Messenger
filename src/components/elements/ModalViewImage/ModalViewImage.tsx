@@ -27,7 +27,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 	save = (): void => {
 		clearEventListenerPen(this.canvas.current);
 		const dataURL = this.canvas.current.toDataURL();
-		const file = dataURLToFile(dataURL, 'newFile.png');
+		const file = dataURLToFile(dataURL, this.props.modalViewImageStore.title);
 		this.props.changeAttachedFile(this.props.modalViewImageStore.id, file);
 		this.setState({
 			changeMode: false

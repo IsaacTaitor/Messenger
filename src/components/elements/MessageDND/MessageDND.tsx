@@ -8,14 +8,18 @@ import { getIconFile } from '../../../utils/getIconFile';
 interface MessageDNDProps {
 	addMessage(message: MessageValue): void;
 	addAttachedFile(id: number, file: File): void;
-	openModal(img: string, editable: boolean, id: number): void;
+	openModal(img: string, editable: boolean, id: number, title: string): void;
 	clearAttachedFiles(): void;
 	deleteAttachedFile(id: number): void;
 	modalViewImage: AttachedFilesStore;
 }
 
 interface MessageDNDState {
-	images: Array<{ id: number; file: any }>;
+	images: Array<{
+		id: number;
+		title: string;
+		file: any;
+	}>;
 	files: {
 		[id: number]: {
 			title: string;
@@ -125,7 +129,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 					files={this.props.modalViewImage}
 				/>
 				<div className="gallery">
-					{images.map(({ image, id }) => <div
+					{images.map(({ image, id, title }) => <div
 						key={id}
 						className="image"
 						style={{ position: 'relative', overflow: 'hidden' }}>
@@ -133,7 +137,7 @@ export default class MessageDND extends React.PureComponent<MessageDNDProps, Mes
 							src={image}
 							alt="img"
 							style={{ width: '100%', maxWidth: '100px' }}
-							onClick={(): void => this.props.openModal(image, true, id)} />
+							onClick={(): void => this.props.openModal(image, true, id, title)} />
 						<button onClick={() => this.props.deleteAttachedFile(id)} className='close' >X</button>
 					</div>
 					)}

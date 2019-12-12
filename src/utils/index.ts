@@ -22,7 +22,7 @@ export const filesToImage = (file: AttachedFilesStore) => {
 							const reader = new FileReader();
 							reader.readAsDataURL(file[key]);
 							reader.onloadend = () => {
-								resolve({ image: reader.result, id: key });
+								resolve({ image: reader.result, id: key, title: file[key].name });
 							};
 							reader.onerror = () => {
 								reject(reader.error);
