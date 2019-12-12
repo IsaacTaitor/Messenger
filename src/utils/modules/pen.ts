@@ -4,9 +4,7 @@ let ctx, flag = false,
 	prevY = 0,
 	currY = 0,
 	dotFlag = false,
-	changeMode = false,
 	canvas = null;
-
 
 const x = 'black',
 	y = 2;
@@ -22,7 +20,7 @@ function draw(): void {
 }
 
 function findxy(res, e): void {
-	if ((res === 'down') && changeMode) {
+	if (res === 'down') {
 		prevX = currX;
 		prevY = currY;
 		currX = e.clientX - canvas.offsetLeft;
@@ -68,10 +66,6 @@ export function pen(newCanvas): void {
 	canvas.addEventListener('mousedown', moveDown, false);
 	canvas.addEventListener('mouseup', moveUp, false);
 	canvas.addEventListener('mouseout', moveOut, false);
-}
-
-export function changeModePen(newChangeMode): void {
-	changeMode = newChangeMode;
 }
 
 export function clearEventListenerPen(canvas): void {

@@ -30,6 +30,16 @@
 	color: white;
 }
 
+.previewDiv {
+	width: 850px;
+	height: 500px;
+	background: #202020;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
 .saveButton {
 	position: absolute;
 	bottom: 10px;

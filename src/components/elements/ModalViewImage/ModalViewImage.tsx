@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalViewImageStore } from '../../../types/store';
 import { dataURLToFile } from '../../../utils';
-import { pen, clearEventListenerPen, changeModePen } from '../../../utils/modules/pen';
+import { pen, clearEventListenerPen } from '../../../utils/modules/pen';
 import './ModalViewImage.css';
 
 interface ModalViewImageProps {
@@ -19,6 +19,9 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 
 	state = {
 		changeMode: false,
+		width: 0,
+		height: 0,
+		imgDraw: null
 	}
 
 	init = (img, width, height): void => {
@@ -26,6 +29,7 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 	};
 
 	save = (): void => {
+		clearEventListenerPen(this.canvas.current);
 		const dataURL = this.canvas.current.toDataURL();
 		const file = dataURLToFile(dataURL, 'newFile.png');
 		this.props.changeFilePreview(this.props.modalViewImageStore.id, file);
@@ -34,76 +38,72 @@ export default class ModalViewImage extends React.PureComponent<ModalViewImagePr
 		});
 	};
 
+	change = () => {
+		this.setState({
+			changeMode: true
+		});
+		pen(this.canvas.current);
+	}
+
 	clear = (img, width, height): void => {
 		this.canvas.current.getContext('2d').drawImage(img, 0, 0, width, height);
 	}
 
-	componentDidUpdate() {
-		changeModePen(this.state.changeMode);
+	close = () => {
+		this.setState({
+			changeMode: false
+		});
+		clearEventListenerPen(this.canvas.current);
+		this.props.closeModal();
 	}
 
-	componentWillUnmount() {
+	setSizeCanvas = (img) => {
+		const imgDraw = new Image();
+		imgDraw.src = img;
+		this.setState({ imgDraw });
+		if ((imgDraw.height <= 400) && (imgDraw.width <= 800)) {
+			this.setState({ width: imgDraw.width });
+			this.setState({ height: imgDraw.height });
+		} else if (imgDraw.height > 400) {
+			this.setState({ width: imgDraw.width * (400 / imgDraw.height) });
+			this.setState({ height: 400 });
+			if (this.state.width > 800) {
+				this.setState({ width: 800 });
+				this.setState({ height: imgDraw.height * (400 / imgDraw.width) });
+			}
+		}
+	}
+
+	componentDidUpdate(prevProps): void {
+		const { img } = this.props.modalViewImageStore;
+		if (prevProps.modalViewImageStore.img !== img) {
+			this.setSizeCanvas(img);
+		}
+	}
+
+	componentWillUnmount(): void {
 		clearEventListenerPen(this.canvas.current);
 	}
 
 	render(): React.ReactElement {
 		const { isOpen, img, editable } = this.props.modalViewImageStore;
-		const imgDraw = new Image();
-		imgDraw.src = img;
-		let width;
-		let height;
-		if ((imgDraw.height <= 400) && (imgDraw.width <= 800)) {
-			width = imgDraw.width;
-			height = imgDraw.height;
-		} else if (imgDraw.height > 400) {
-			width = imgDraw.width * (400 / imgDraw.height);
-			height = 400;
-			if (width > 800) {
-				width = 800;
-				height = imgDraw.height * (400 / imgDraw.width);
-			}
-		}
+
 		return (
 			isOpen && (
 				editable ?
-					<div className='modal-div' onLoad={() => this.init(imgDraw, width, height)}>
-						<div style={{
-							width: '850px',
-							height: '500px',
-							background: '#202020',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							position: 'relative'
-						}}>
+					<div className='modal-div' onLoad={() => this.init(this.state.imgDraw, this.state.width, this.state.height)}>
+						<div className='previewDiv'>
 							<div onClick={this.save} className='previewText'>Предпросмотр</div>
-							<canvas ref={this.canvas} style={{ position: 'fixed' }} width={width} height={height} />
-							{this.state.changeMode && <div onClick={() => {
-								this.save();
-								clearEventListenerPen(this.canvas.current);
-							}} className='saveButton'>Сохранить</div>}
-							{!this.state.changeMode && <div onClick={() => {
-								this.setState({
-									changeMode: true
-								});
-								pen(this.canvas.current);
-							}} className='changeButton'>Изменить</div>}
-							{this.state.changeMode && <div onClick={() => {
-								this.clear(imgDraw, width, height);
-								clearEventListenerPen(this.canvas.current);
-							}} className='clearButton'>Очистить</div>}
+							<canvas ref={this.canvas} style={{ position: 'fixed' }} width={this.state.width} height={this.state.height} />
+							{!this.state.changeMode && <div onClick={this.change} className='changeButton'>Изменить</div>}
+							{this.state.changeMode && <div onClick={this.save} className='saveButton'>Сохранить</div>}
+							{this.state.changeMode && <div onClick={() => this.clear(this.state.imgDraw, this.state.width, this.state.height)} className='clearButton'>Очистить</div>}
 						</div>
-						<i className='fa fa-close' onClick={(): void => {
-							this.setState({
-								changeMode: false
-							});
-							clearEventListenerPen(this.canvas.current);
-							this.props.closeModal();
-						}} style={{ fontSize: '48px' }} />
-						<img src={img} alt='kek' className='img' id='img' style={{ display: 'none' }} />
+						<i className='fa fa-close' onClick={this.close} style={{ fontSize: '48px' }} />
+						<img src={img} alt='kek' className='img' style={{ display: 'none' }} />
 					</div>
 					: <div className='modal-div' >
-						<img src={img} alt='kek' className='img' id='img' />
+						<img src={img} alt='kek' className='img'/>
 						<i className='fa fa-close' onClick={(): void => this.props.closeModal()} style={{ fontSize: '48px' }} />
 					</div>)
 		);
