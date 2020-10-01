@@ -3,10 +3,12 @@ import { MessageValue } from '../../../types/store';
 import { filesToImage } from '../../../utils';
 import './Message.css';
 import { getIconFile } from '../../../utils/getIconFile';
+import ReactMoment from 'react-moment';
 
 interface MessageProps {
 	message: MessageValue;
 	openModal(img: string, editable: boolean): void;
+	removeMessage(id: number): void;
 }
 
 interface MessageState {
@@ -26,32 +28,15 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 		files: []
 	}
 
-	getTIMESTAMP(unix): string {
-		const date = new Date(unix);
-		const year = date.getFullYear();
-		const month = ('0' + (date.getMonth() + 1)).substr(-2);
-		const day = ('0' + date.getDate()).substr(-2);
-		const hour = ('0' + date.getHours()).substr(-2);
-		const minutes = ('0' + date.getMinutes()).substr(-2);
-		const seconds = ('0' + date.getSeconds()).substr(-2);
-
-		return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
-	}
-
 	render(): React.ReactElement {
 		const { files, images } = this.state;
 		const { message } = this.props;
-		const timeStamp = this.getTIMESTAMP(message.id);
 
-		debugger;
 		return (
 			<div className="bodyMessage">
+				<button onClick={() => this.props.removeMessage(message.id)}>X</button>
 				<div className="textMessage">
 					{this.props.message.text}
-					<br />
-					<div className='msgTimeStamp'>
-						{timeStamp}
-					</div>
 					<div className='imagesList'>
 						{images.map(({ image, id }) =>
 							<img
@@ -74,6 +59,9 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 							</div>
 						)}
 					</div>
+					<ReactMoment className='msgTimeStamp' format="DD/MM/YYYY hh:mm:ss">
+						{message.id}
+					</ReactMoment>
 				</div>
 			</div>
 		);
