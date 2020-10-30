@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { getIconFile } from '../../../utils/getIconFile';
 import './FileList.css';
 

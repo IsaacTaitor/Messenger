@@ -31,3 +31,8 @@
 	flex-direction: row;
 	align-items: center
 }
+
+.msgTimeStamp {
+	font-size: 8px;
+	color: gray;
+}

@@ -3,10 +3,12 @@ import { MessageValue } from '../../../types/store';
 import { filesToImage } from '../../../utils';
 import './Message.css';
 import { getIconFile } from '../../../utils/getIconFile';
+import ReactMoment from 'react-moment';
 
 interface MessageProps {
 	message: MessageValue;
 	openModal(img: string, editable: boolean): void;
+	removeMessage(id: number): void;
 }
 
 interface MessageState {
@@ -25,11 +27,14 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 		images: [],
 		files: []
 	}
+
 	render(): React.ReactElement {
 		const { files, images } = this.state;
 		const { message } = this.props;
+
 		return (
 			<div className="bodyMessage">
+				<button onClick={() => this.props.removeMessage(message.id)}>X</button>
 				<div className="textMessage">
 					{this.props.message.text}
 					<div className='imagesList'>
@@ -54,6 +59,9 @@ export default class Message extends React.PureComponent<MessageProps, MessageSt
 							</div>
 						)}
 					</div>
+					<ReactMoment className='msgTimeStamp' format="DD/MM/YYYY hh:mm:ss">
+						{message.id}
+					</ReactMoment>
 				</div>
 			</div>
 		);
